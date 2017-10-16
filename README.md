@@ -33,6 +33,6 @@ AppRegistry.registerComponent('QiscusReactNative', setup);
 
 ```
 
-### Run `react-native eject`
+#### Run `react-native eject`
 
-## Run `react-native link`
+#### Run `react-native link`
