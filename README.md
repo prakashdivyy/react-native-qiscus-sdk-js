@@ -2,7 +2,7 @@
 
 ## Clone this repo
 
-`git clone https://github.com/theredfoxfire/react-native-qiscus-sdk.git`
+`git clone https://github.com/qiscus/react-native-qiscus-sdk-js.git`
 
 ## example of usage
 
