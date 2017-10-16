@@ -1,6 +1,6 @@
 # react-native-qiscus-sdk
 
-## Clone thie repo
+## Clone this repo
 
 `git clone https://github.com/theredfoxfire/react-native-qiscus-sdk.git`
 
