@@ -36,6 +36,6 @@ AppRegistry.registerComponent('QiscusReactNative', setup);
 
 #### Run `react-native link`
 
-##TO DO:
+## TO DO:
 
 Publish lib into NPM
