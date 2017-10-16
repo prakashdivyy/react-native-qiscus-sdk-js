@@ -1,6 +1,6 @@
 # react-native-qiscus-sdk
 
-## install package from [npm](https://www.npmjs.com/)
+## Clone thie repo
 
 `git clone https://github.com/theredfoxfire/react-native-qiscus-sdk.git`
 
