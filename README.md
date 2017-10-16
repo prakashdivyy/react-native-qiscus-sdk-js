@@ -12,6 +12,7 @@
 
 ```
 "dependencies": {
+  ...
   "class-autobind": "^0.1.4",
   "color": "^0.11.3",
   "lodash": "^4.13.1",
@@ -29,6 +30,7 @@
   "redux-persist": "^4.0.0",
   "redux-thunk": "^2.2.0",
   "remote-redux-devtools": "^0.5.0"
+  ...
 },
 
 ```
