@@ -6,9 +6,8 @@
 
 ## example of usage
 
-### Go to project directory and run npm install
+### Go to project directory and run `npm install`
 
-`npm install`
 
 ### 1 create file config configQiscus.js inside your root project directory (same level as your inde.ios.js)
 
