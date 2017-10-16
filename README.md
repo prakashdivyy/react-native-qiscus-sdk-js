@@ -6,10 +6,12 @@
 
 ## example of usage
 
+### Pick and copy `QiscusSDK` folder, `configQiscus.js`, `package.json` file then paste into your project root directory
+
 ### Go to project directory and run `npm install`
 
 
-### 1 create file config `configQiscus.js` inside your root project directory (same level as your inde.ios.js)
+### File config `configQiscus.js` will look like
 
 ```
 // configQiscus.js
@@ -22,7 +24,7 @@ export const userAuth = {
 
 ```
 
-### 2 Create index.ios.js / index.android.js, Your code insdie index.ios.js / index.android.js
+### Your code insdie index.ios.js / index.android.js will look like
 ```
 
 import { AppRegistry } from 'react-native';
@@ -32,9 +34,7 @@ AppRegistry.registerComponent('QiscusReactNative', setup);
 
 ```
 
-#### Run `react-native eject`
-
-#### Run `react-native link`
+#### Run `react-native run-android / react-native run-ios`
 
 ## TO DO:
 
