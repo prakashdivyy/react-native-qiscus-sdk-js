@@ -17,8 +17,6 @@
   "lodash": "^4.13.1",
   "moment": "^2.13.0",
   "native-base": "2.1.4",
-  "react": "16.0.0-alpha.12",
-  "react-native": "0.45.1",
   "react-native-document-picker": "^2.1.0",
   "react-native-easy-grid": "0.1.8",
   "react-native-file-uploader": "0.0.2",
