@@ -8,7 +8,7 @@
 
 ### Copy `QiscusSDK` folder, `configQiscus.js`, `package.json` file then paste into your project root directory
 
-### Go to project directory and run `npm install`
+### Go to project directory remove `node_modules` directory and run `npm install`
 
 
 ### File config `configQiscus.js` will look like

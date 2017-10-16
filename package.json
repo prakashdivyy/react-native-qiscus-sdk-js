@@ -2,14 +2,9 @@
   "name": "react-native-qiscus-sdk",
   "version": "0.0.1",
   "description": "react-native qiscus sdk",
-  "main": "lib/QiscusSDK/js/setup.js",
   "scripts": {
-    "build": "rimraf lib && babel src --ignore '_*' --out-dir lib",
-    "prepublish": "npm run build",
-    "lint": "eslint --max-warnings 0 .",
-    "typecheck": "flow",
-    "test-src": "mocha src/__tests__/*.js src/**/__tests__/*.js",
-    "test": "npm run lint && npm run typecheck && npm run test-src"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest"
   },
   "dependencies": {
     "class-autobind": "^0.1.4",
@@ -50,23 +45,5 @@
     "flow-bin": "^0.27.0",
     "mocha": "^2.5.3",
     "rimraf": "^2.5.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://github.com/theredfoxfire/react-native-qiscus-sdk.git"
-  },
-  "keywords": [
-    "react-native",
-    "dropdown",
-    "es6-class",
-    "select-option",
-    "modal"
-  ],
-  "author": "vizzlearn@gmail.com",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/theredfoxfire/react-native-qiscus-sdk.git"
-  },
-  "homepage": "https://github.com/theredfoxfire/react-native-qiscus-sdk.git",
-  "readme": "https://github.com/theredfoxfire/react-native-qiscus-sdk/blob/master/README.md"
+  }
 }
