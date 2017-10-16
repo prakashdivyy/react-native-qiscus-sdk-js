@@ -26,7 +26,7 @@ export const userAuth = {
 ```
 
 import { AppRegistry } from 'react-native';
-import setup from 'react-native-qiscus-sdk';
+import setup from './QiscusSDK';
 
 AppRegistry.registerComponent('QiscusReactNative', setup);
 
@@ -35,3 +35,7 @@ AppRegistry.registerComponent('QiscusReactNative', setup);
 #### Run `react-native eject`
 
 #### Run `react-native link`
+
+##TO DO:
+
+Publish lib into NPM
