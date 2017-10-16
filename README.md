@@ -6,7 +6,7 @@
 
 ## example of usage
 
-### Pick and copy `QiscusSDK` folder, `configQiscus.js`, `package.json` file then paste into your project root directory
+### Copy `QiscusSDK` folder, `configQiscus.js`, `package.json` file then paste into your project root directory
 
 ### Go to project directory and run `npm install`
 
