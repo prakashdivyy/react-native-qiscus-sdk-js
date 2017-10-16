@@ -2,13 +2,28 @@
 
 ## install package from [npm](https://www.npmjs.com/)
 
-`$ npm install --save react-native-qiscus-sdk`
+`git clone https://github.com/theredfoxfire/react-native-qiscus-sdk.git`
 
 ## example of usage
 
-### create QiscusSDK config inside your root project directory (same level as your inde.ios.js)
+### Go to project directory and run npm install
 
-### Your code insdie index.ios.js / index.android.js
+`npm install`
+
+### 1 create file config configQiscus.js inside your root project directory (same level as your inde.ios.js)
+
+```
+// configQiscus.js
+
+export const userAuth = {
+  email: 'fikri@qiscus.com',
+  password: 'password',
+  displayName: 'fikri',
+}
+
+```
+
+### 2 Your code insdie index.ios.js / index.android.js
 ```
 
 import { AppRegistry } from 'react-native';
