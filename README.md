@@ -10,6 +10,8 @@
 
 ### Add following dependencies into your `package.json file` beware please this SDK use native-base component which require `"react-native": "0.45.1"` higher react-native version not supported yet
 
+You can specified react-native version in your new project by run this command `react-native init AppSDK --version 0.45.1`
+
 ```
 "dependencies": {
   ...
