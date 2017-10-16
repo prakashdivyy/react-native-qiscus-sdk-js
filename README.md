@@ -8,7 +8,7 @@
 
 ### Copy `QiscusSDK` folder, `configQiscus.js` file then paste into your project root directory
 
-### Add following dependencies into your `package.json file`
+### Add following dependencies into your `package.json file` please beware this SDK use native-base component which require `"react-native": "0.45.1"` higher react-native version not supported yet
 
 ```
 "dependencies": {
@@ -30,7 +30,8 @@
   "redux-form": "^6.7.0",
   "redux-persist": "^4.0.0",
   "redux-thunk": "^2.2.0",
-  "remote-redux-devtools": "^0.5.0"
+  "remote-redux-devtools": "^0.5.0",
+  "react-native": "0.45.1"
   ...
   ...
 },
