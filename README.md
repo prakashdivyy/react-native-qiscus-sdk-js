@@ -6,7 +6,34 @@
 
 ## example of usage
 
-### Copy `QiscusSDK` folder, `configQiscus.js`, `package.json` file then paste into your project root directory
+### Copy `QiscusSDK` folder, `configQiscus.js` file then paste into your project root directory
+
+### Add following dependencies into your `package.json file`
+
+```
+"dependencies": {
+  "class-autobind": "^0.1.4",
+  "color": "^0.11.3",
+  "lodash": "^4.13.1",
+  "moment": "^2.13.0",
+  "native-base": "2.1.4",
+  "react": "16.0.0-alpha.12",
+  "react-native": "0.45.1",
+  "react-native-document-picker": "^2.1.0",
+  "react-native-easy-grid": "0.1.8",
+  "react-native-file-uploader": "0.0.2",
+  "react-native-image-picker": "^0.26.7",
+  "react-native-modalbox": "^1.3.4",
+  "react-navigation": "^1.0.0-beta.13",
+  "react-redux": "^5.0.2",
+  "redux": "^3.6.0",
+  "redux-form": "^6.7.0",
+  "redux-persist": "^4.0.0",
+  "redux-thunk": "^2.2.0",
+  "remote-redux-devtools": "^0.5.0"
+},
+
+```
 
 ### Go to project directory remove `node_modules` directory and run `npm install`
 
