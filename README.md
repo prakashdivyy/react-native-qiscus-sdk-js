@@ -9,7 +9,7 @@
 ### Go to project directory and run `npm install`
 
 
-### 1 create file config configQiscus.js inside your root project directory (same level as your inde.ios.js)
+### 1 create file config `configQiscus.js` inside your root project directory (same level as your inde.ios.js)
 
 ```
 // configQiscus.js
