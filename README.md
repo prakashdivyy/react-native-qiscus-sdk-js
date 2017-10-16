@@ -23,7 +23,7 @@ export const userAuth = {
 
 ```
 
-### 2 Your code insdie index.ios.js / index.android.js
+### 2 Create index.ios.js / index.android.js, Your code insdie index.ios.js / index.android.js
 ```
 
 import { AppRegistry } from 'react-native';
@@ -32,3 +32,7 @@ import setup from 'react-native-qiscus-sdk';
 AppRegistry.registerComponent('QiscusReactNative', setup);
 
 ```
+
+### Run `react-native eject`
+
+## Run `react-native link`
