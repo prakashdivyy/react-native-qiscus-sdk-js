@@ -21,7 +21,6 @@ You can specified react-native version in your new project by run this command `
   "lodash": "^4.13.1",
   "moment": "^2.13.0",
   "native-base": "2.1.4",
-  "react-native-document-picker": "^2.1.0",
   "react-native-easy-grid": "0.1.8",
   "react-native-file-uploader": "0.0.2",
   "react-native-image-picker": "^0.26.7",
@@ -41,6 +40,8 @@ You can specified react-native version in your new project by run this command `
 ```
 
 ### Go to project directory remove `node_modules` directory and run `npm install`
+
+### Run `react-native link`
 
 
 ### File config `configQiscus.js` will look like
