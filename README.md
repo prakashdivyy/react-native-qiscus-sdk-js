@@ -36,6 +36,8 @@ AppRegistry.registerComponent('YourProjectName', setup);
 
 #### Run `react-native run-android / react-native run-ios`
 
+#### If you got `ENOENT: no such file or directory, uv_chdir`, make sure you have create index.ios.js / index.android.js file on your root project directory
+
 ## TO DO:
 
 Publish lib into NPM
