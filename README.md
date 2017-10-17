@@ -15,10 +15,10 @@ You can specified react-native version in your new project by run this command `
 ### Run `react-native link`
 
 
-### Create new file `configQiscus.js`, in your project root directory, Your `configQiscus.js` will look like
+### Create new file `configQiscusSDK.js`, in your project root directory, Your `configQiscusSDK.js` will look like
 
 ```
-// configQiscus.js
+// configQiscusSDK.js
 
 export const userAuth = {
   email: 'fikri@qiscus.com',
