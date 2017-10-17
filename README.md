@@ -2,7 +2,7 @@
 
 ## example of usage
 
-### Install from npm
+### 1) Install from npm
 
 `npm install --save react-native-qiscus-sdk`
 
@@ -10,12 +10,12 @@ Beware please since this SDK use native-base component which require `"react-nat
 
 You can specified react-native version in your new project by run this command `react-native init AppSDK --version 0.45.1`
 
-### Go to project directory remove `node_modules` directory and run `npm install`
-
-### Run `react-native link`
+### 2) Run `react-native link`
 
 
-### Create new file `configQiscusSDK.js`, in your project root directory, Your `configQiscusSDK.js` will look like
+### 3) Create new file `configQiscusSDK.js`
+
+In your project root directory, Your `configQiscusSDK.js` will look like
 
 ```
 // configQiscusSDK.js
@@ -28,7 +28,8 @@ export const userAuth = {
 
 ```
 
-### Your code insdie index.ios.js / index.android.js will look like
+### 4) Your code insdie index.ios.js / index.android.js will look like
+
 ```
 
 import { AppRegistry } from 'react-native';
