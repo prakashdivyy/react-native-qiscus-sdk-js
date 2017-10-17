@@ -24,7 +24,7 @@ import styles from "./styles";
 
 import QiscusSDK from "../../../lib/qiscusSdk";
 
-const qiscus = new QiscusSDK();
+var qiscus = new QiscusSDK();
 
 type Props = {
   name: string;
@@ -152,7 +152,7 @@ const mapStateToProps = state => ({
 });
 
 const HomeSwagger = connect(mapStateToProps, bindAction)(Home);
-const DrawNav = DrawerNavigator(
+var DrawNav = DrawerNavigator(
   {
     Home: { screen: HomeSwagger },
   },
@@ -160,7 +160,7 @@ const DrawNav = DrawerNavigator(
     contentComponent: props => <DrawBar {...props} />
   }
 );
-const DrawerNav = null;
+var DrawerNav = null;
 DrawNav.navigationOptions = ({ navigation }) => {
   DrawerNav = navigation;
   return {
