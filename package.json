@@ -2,9 +2,14 @@
   "name": "react-native-qiscus-sdk",
   "version": "0.0.1",
   "description": "react-native qiscus sdk",
+  "main": "lib/setup.js",
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest"
+    "build": "rimraf lib && babel QiscusSDK --ignore '_*' --out-dir lib",
+    "prepublish": "npm run build",
+    "lint": "eslint --max-warnings 0 .",
+    "typecheck": "flow",
+    "test-src": "mocha src/__tests__/*.js src/**/__tests__/*.js",
+    "test": "npm run lint && npm run typecheck && npm run test-src"
   },
   "dependencies": {
     "class-autobind": "^0.1.4",
@@ -45,5 +50,21 @@
     "flow-bin": "^0.27.0",
     "mocha": "^2.5.3",
     "rimraf": "^2.5.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://github.com/theredfoxfire/react-native-dropdown-modal.git"
+  },
+  "keywords": [
+    "react-native",
+    "qiscus",
+    "chat"
+  ],
+  "author": "QiscusSDK Developer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qiscus/react-native-qiscus-sdk-js"
+  },
+  "homepage": "https://github.com/qiscus/react-native-qiscus-sdk-js",
+  "readme": "https://github.com/qiscus/react-native-qiscus-sdk-js/blob/master/README.md"
 }

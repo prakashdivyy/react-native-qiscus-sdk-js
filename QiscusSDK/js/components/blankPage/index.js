@@ -57,7 +57,6 @@ class BlankPage extends Component {
     header: null
   };
   _setComments(comments: Array<Object>) {
-    console.log('set comments called', comments);
     this.setState({
       comments: comments,
     });
