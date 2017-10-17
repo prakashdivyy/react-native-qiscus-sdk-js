@@ -52,7 +52,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://github.com/theredfoxfire/react-native-dropdown-modal.git"
+    "url": "git+ssh://github.com/qiscus/react-native-qiscus-sdk-js.git"
   },
   "keywords": [
     "react-native",
