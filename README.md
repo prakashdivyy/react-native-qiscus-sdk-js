@@ -33,7 +33,7 @@ export const userAuth = {
 
 ```
 
-### 4) Your code insdie index.ios.js / index.android.js will look like
+### 4) Your code inside index.ios.js / index.android.js will look like
 
 ```
 
