@@ -1,8 +1,8 @@
 {
   "name": "react-native-qiscus-sdk",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "react-native qiscus sdk",
-  "main": "lib/setup.js",
+  "main": "QiscusSDK/js/setup.js",
   "scripts": {
     "build": "rimraf lib && babel QiscusSDK --ignore '_*' --out-dir lib",
     "prepublish": "npm run build",

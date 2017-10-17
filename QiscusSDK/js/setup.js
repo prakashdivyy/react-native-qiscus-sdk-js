@@ -7,7 +7,7 @@ import App from './App';
 import configureStore from './configureStore';
 import getTheme from '../native-base-theme/components';
 import platform from '../native-base-theme/variables/platform';
-import {userAuth} from '@config/configQiscus';
+import {userAuth} from '../../../../configQiscusSDK';
 
 function setup():React.Component {
   class Root extends Component {

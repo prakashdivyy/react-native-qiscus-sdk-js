@@ -6,45 +6,20 @@
 
 ## example of usage
 
-### Copy `QiscusSDK` folder, `configQiscus.js` file then paste into your project root directory
+### Install from npm
 
-### Add following dependencies into your `package.json file` beware please this SDK use native-base component which require `"react-native": "0.45.1"` higher react-native version not supported yet
+`npm install --save react-native-qiscus-sdk`
+
+Beware please since this SDK use native-base component which require `"react-native": "0.45.1"` higher react-native version not supported yet, lower version are welcome.
 
 You can specified react-native version in your new project by run this command `react-native init AppSDK --version 0.45.1`
-
-```
-"dependencies": {
-  ...
-  ...
-  "class-autobind": "^0.1.4",
-  "color": "^0.11.3",
-  "lodash": "^4.13.1",
-  "moment": "^2.13.0",
-  "native-base": "2.1.4",
-  "react-native-easy-grid": "0.1.8",
-  "react-native-file-uploader": "0.0.2",
-  "react-native-image-picker": "^0.26.7",
-  "react-native-modalbox": "^1.3.4",
-  "react-navigation": "^1.0.0-beta.13",
-  "react-redux": "^5.0.2",
-  "redux": "^3.6.0",
-  "redux-form": "^6.7.0",
-  "redux-persist": "^4.0.0",
-  "redux-thunk": "^2.2.0",
-  "remote-redux-devtools": "^0.5.0",
-  "react-native": "0.45.1"
-  ...
-  ...
-},
-
-```
 
 ### Go to project directory remove `node_modules` directory and run `npm install`
 
 ### Run `react-native link`
 
 
-### File config `configQiscus.js` will look like
+### Create new file `configQiscus.js`, in your project root directory, Your `configQiscus.js` will look like
 
 ```
 // configQiscus.js
@@ -70,7 +45,3 @@ AppRegistry.registerComponent('YourProjectName', setup);
 #### Run `react-native run-android / react-native run-ios`
 
 #### If you got `ENOENT: no such file or directory, uv_chdir`, make sure you have create index.ios.js / index.android.js file on your root project directory
-
-## TO DO:
-
-Publish lib into NPM
