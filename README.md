@@ -33,7 +33,7 @@ export const userAuth = {
 ```
 
 import { AppRegistry } from 'react-native';
-import setup from './QiscusSDK/js/setup';
+import setup from 'react-native-qiscus-sdk';
 
 AppRegistry.registerComponent('YourProjectName', setup);
 
