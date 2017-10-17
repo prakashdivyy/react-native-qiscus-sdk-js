@@ -1,9 +1,5 @@
 # react-native-qiscus-sdk
 
-## Clone this repo
-
-`git clone https://github.com/qiscus/react-native-qiscus-sdk-js.git`
-
 ## example of usage
 
 ### Install from npm
