@@ -10,8 +10,13 @@ Beware please since this SDK use native-base component which require `"react-nat
 
 You can specified react-native version in your new project by run this command `react-native init AppSDK --version 0.45.1`
 
-### 2) Run `react-native link`
+### 2) Run React Native Link
 
+```
+
+react-native link react-native-vector-icons
+
+```
 
 ### 3) Create new file `configQiscusSDK.js`
 
