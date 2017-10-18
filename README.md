@@ -4,7 +4,7 @@
 
 ### 1) Install from npm
 
-`npm install --save react-native-qiscus-sdk`
+`npm install --save react-native-qiscus-sdk && npm install`
 
 Beware please since this SDK use native-base component which require `"react-native": "0.45.1"` higher react-native version not supported yet, lower version are welcome.
 
