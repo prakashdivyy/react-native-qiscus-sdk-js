@@ -51,7 +51,6 @@ class BlankPage extends Component {
   }
   componentWillReceiveProps(nextProps) {
      this._setComments(nextProps.message);
-     this.measureChatContainer();
   }
   static navigationOptions = {
     header: null
@@ -60,6 +59,7 @@ class BlankPage extends Component {
     this.setState({
       comments: comments,
     });
+    this.measureChatContainer();
   }
   _setToken(token: string) {
     this.setState({
