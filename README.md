@@ -14,7 +14,7 @@ You can specified react-native version in your new project by run this command `
 
 ```
 
-react-native-vector-icons
+react-native link react-native-vector-icons
 
 ```
 
