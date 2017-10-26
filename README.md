@@ -161,7 +161,7 @@ AppRegistry.registerComponent('AppSDK', () => AppSDK);
 
 ```
 
-[Working example are here:](https://github.com/qiscus/qiscus-react-native-js-example)
+Working example are here: [react native example](https://github.com/qiscus/qiscus-react-native-js-example)
 
 
 #### Run `react-native run-android / react-native run-ios`
@@ -173,7 +173,7 @@ AppRegistry.registerComponent('AppSDK', () => AppSDK);
 
 # API DOC
 
-Once you initiated this SDK the SDK will give you Object. Let say you have assign this object into `qiscus` varibale. So here is the list of available API:
+Once you initiated this SDK the SDK will give you an Object. Let say you have assign this object into `qiscus` varibale. So here is the list of available API:
 
 **Send message**
 
@@ -181,18 +181,23 @@ Once you initiated this SDK the SDK will give you Object. Let say you have assig
 
 qiscus.submitComment(roomId, message, commentUniqueId, type, payload)
 
+
 * File comment / upload media
 
 qiscus.uploadFile(roomId, file)
 // file can be acquired from event 'e.target.files || e.dataTransfer.files'
 
+
 * Custom payload comment:
 
 qiscus.submitComment(roomId, message, uniqueId, type, payload)
 
+
+
 **Load comments**
 
 calling qiscus.chatTarget or qiscus.chatGroup will load 20 comments from respected room
+
 
 **Load more comments**
 
@@ -250,6 +255,8 @@ qiscus.selected.participants
 
 newMessagesCallback(comment)
 
+
+
 **Listen  comment state**
 pass
 
@@ -261,9 +268,13 @@ commentDeliveredCallback(data)
 
 while initiating QiscusSDK
 
+
+
 **Listen user online presence**
 
  presenceCallback(presence)
+
+
 
 **Listen user typing**
 
@@ -272,6 +283,7 @@ pass
 typingCallback(data)
 
 while initiating QiscusSDK
+
 
 **Object
 
@@ -286,6 +298,8 @@ properties:
 - last_comment_id
 - token
 - username
+
+
 
 **Room : **
 
@@ -304,6 +318,7 @@ Room Properties:
 - last_comment_message_created_at
 - last_comment_topic_id
 - last_comment_topic_title
+
 
 
 **Comment :**
