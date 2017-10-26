@@ -1,9 +1,8 @@
 import QiscusSDK from './qiscusSdk';
-import {userAuth} from '../../../../configQiscusSDK';
 
 export function InitApp(config) {
   let qiscus = new QiscusSDK();
-  let {initApp, receiveNewMessage, setRooms} = config;
+  let {initApp, receiveNewMessage, setRooms, userAuth} = config;
   qiscus.init({
     AppId: userAuth.appID,
     options: {

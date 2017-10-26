@@ -1,6 +1,6 @@
 {
   "name": "react-native-qiscus-sdk",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "react-native qiscus sdk",
   "main": "QiscusSDK/lib/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "react-native-easy-grid": "0.1.8",
     "react-native-file-uploader": "0.0.2",
     "react-native-image-picker": "^0.26.7",
-    "react-native-modalbox": "^1.3.4",
+    "react-native-modalbox": "^1.3.4"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",

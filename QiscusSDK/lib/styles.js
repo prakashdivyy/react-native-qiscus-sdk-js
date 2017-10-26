@@ -99,6 +99,13 @@ export default{
     paddingTop: 3,
     marginRight: width * 0.20,
   },
+  formStyle: {
+    height: 45,
+    bottom: 0,
+    flexDirection: 'row',
+    marginTop: 0,
+    backgroundColor: '#fff',
+  },
   cardContainerRight: {
     flexDirection: 'row',
     marginTop: 10,

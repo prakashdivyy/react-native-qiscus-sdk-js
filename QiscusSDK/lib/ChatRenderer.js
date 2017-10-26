@@ -1,6 +1,6 @@
 //@flow
 import React, { Component } from 'react';
-import { ScrollView, View, Keyboard, NativeModules, Image, Platform, Dimensions } from 'react-native';
+import { ScrollView, View, Keyboard, Animated, NativeModules, Image, Platform, Dimensions } from 'react-native';
 import autobind from 'class-autobind';
 import styles from "./styles";
 import {
@@ -21,6 +21,7 @@ import {
   ActionSheet,
 } from "native-base";
 import {ChatComponent} from './ChatComponent';
+const {height, width} = Dimensions.get('window');
 
 export class ChatRenderer extends Component {
   constructor() {
@@ -30,7 +31,8 @@ export class ChatRenderer extends Component {
       comments: null,
       newMessage: null,
       clicked: null,
-    }
+      formStyle: styles.formStyle,
+    };
   }
   componentWillMount() {
     const {props: {room, initApp, qiscus}, state: {comments}} = this;
@@ -39,15 +41,37 @@ export class ChatRenderer extends Component {
       initApp(qiscus);
       this._setComments(data.comments);
     }).catch(err => console.log(err));
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
   componentWillReceiveProps(nextProps) {
     this._setCommentsScroll(nextProps.message);
   }
+  componentWillUnmount () {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+  _keyboardDidShow() {
+    this.setState({
+      formStyle: {
+        height: 45,
+        bottom: 0,
+        flexDirection: 'row',
+        marginTop: -0.42 * height,
+        backgroundColor: '#fff',
+    }});
+  }
+  _keyboardDidHide() {
+    this.setState({
+      formStyle: styles.formStyle});
+  }
   _measureChatContainer() {
-    this.refs.chatContainer.measure((a, b, width, height, px, py) => {
-        this._scrollAction(height);
-      }
-    );
+    if (this.refs.chatContainer) {
+      this.refs.chatContainer.measure((a, b, width, height, px, py) => {
+          this._scrollAction(height);
+        }
+      );
+    }
   }
   _setComments(comments: Array<Object>) {
     this.setState({
@@ -102,7 +126,7 @@ export class ChatRenderer extends Component {
             {ChatComponent(qiscus)}
           </ScrollView>
         </View>
-        <View style={styles.inputContainer}>
+        <View style={this.state.formStyle}>
           <Item rounded style={styles.textInput}>
             <Input value={this.state.newMessage} placeholder="Say something" multiline={true} onChangeText={(text) => this._setNewMessage(text)} />
           </Item>
