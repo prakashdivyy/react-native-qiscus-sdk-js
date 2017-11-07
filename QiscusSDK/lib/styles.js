@@ -13,7 +13,7 @@ export default{
     flex: 1,
   },
   commentList: {
-    height: height * 0.8,
+    height: height * 0.75,
   },
   inputContainer: {
     height: 45,
@@ -21,15 +21,14 @@ export default{
     flexDirection: 'row',
   },
   textInput: {
-    width: 0.85 * width,
+    width: 0.80 * width,
     marginRight: -10,
   },
   button: {
-    width: 0.18 * width,
+    width: 30,
   },
   btnSend: {
-    width: 0.1 * width,
-    // marginLeft: -40,
+    width: 40 * width,
   },
   sendIcon: {
     fontSize: 30,
@@ -103,7 +102,6 @@ export default{
     height: 45,
     bottom: 0,
     flexDirection: 'row',
-    marginTop: 0,
     backgroundColor: '#fff',
   },
   cardContainerRight: {
