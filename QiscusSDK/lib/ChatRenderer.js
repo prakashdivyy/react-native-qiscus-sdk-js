@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Keyboard, Animated, NativeModules, Image, Platform, Dimensions } from 'react-native';
 import autobind from 'class-autobind';
-import styles from "./styles";
+import styles from './styles';
 import {
   Container,
   Header,
@@ -21,6 +21,7 @@ import {
   ActionSheet,
 } from "native-base";
 import {ChatComponent} from './ChatComponent';
+import FilePicker from './FileUploader';
 const {height, width} = Dimensions.get('window');
 
 export class ChatRenderer extends Component {
@@ -78,11 +79,14 @@ export class ChatRenderer extends Component {
       comments: comments,
     });
   }
-  _setCommentsScroll(comments: Array<Object>) {
-    this.setState({
-      comments: comments,
-    });
-    this._measureChatContainer();
+  _setCommentsScroll(nextProps: Array<Object>) {
+    console.log(this.state.comments);
+    if (JSON.stringify(this.state.comments) !== JSON.stringify(nextProps)) {
+      this.setState({
+        comments: nextProps,
+      });
+      this._measureChatContainer();
+    }
   }
   _setToken(token: string) {
     this.setState({
@@ -130,24 +134,7 @@ export class ChatRenderer extends Component {
           <Item rounded style={styles.textInput}>
             <Input value={this.state.newMessage} placeholder="Say something" multiline={true} onChangeText={(text) => this._setNewMessage(text)} />
           </Item>
-          {/* <Button
-            onPress={() =>
-            ActionSheet.show(
-              {
-                options: BUTTONS,
-                cancelButtonIndex: CANCEL_INDEX,
-                destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                title: "File"
-              },
-              buttonIndex => {
-                this.setState({ clicked: BUTTONS[buttonIndex] });
-              }
-            )}
-            style={styles.button}
-            transparent
-          >
-            <Icon name='md-attach' style={styles.sendIcon} />
-          </Button> */}
+          <FilePicker sendMessage={this._sendMessage} />
           <Button transparent style={styles.btnSend} onPress={() => this._sendMessage(this.state.newMessage)}>
             <Icon name='md-send' style={styles.sendIcon} />
           </Button>
