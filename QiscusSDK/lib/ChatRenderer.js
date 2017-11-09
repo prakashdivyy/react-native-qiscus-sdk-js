@@ -80,7 +80,6 @@ export class ChatRenderer extends Component {
     });
   }
   _setCommentsScroll(nextProps: Array<Object>) {
-    console.log(this.state.comments);
     if (JSON.stringify(this.state.comments) !== JSON.stringify(nextProps)) {
       this.setState({
         comments: nextProps,
