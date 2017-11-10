@@ -2,7 +2,21 @@ import QiscusSDK from './qiscusSdk';
 
 export function InitApp(config) {
   let qiscus = new QiscusSDK();
-  let {initApp, receiveNewMessage, setRooms, userAuth} = config;
+  let {
+    initApp,
+    receiveNewMessage,
+    setRooms,
+    userAuth,
+    callbackOptions: {
+      commentDeliveredCallback,
+      chatRoomCreatedCallback,
+      groupRoomCreatedCallback,
+      commentReadCallback,
+      loginErrorCallback,
+      presenceCallback,
+      typingCallback,
+    },
+  } = config;
   qiscus.init({
     AppId: userAuth.appID,
     options: {
@@ -15,6 +29,37 @@ export function InitApp(config) {
       },
       newMessagesCallback: (data) => {
         receiveNewMessage(data);
+      },
+      commentDeliveredCallback: (data) => {
+        commentDeliveredCallback(data);
+      },
+      chatRoomCreatedCallback: (data) => {
+        initApp(qiscus);
+        qiscus.userAdapter.loadRoomList()
+        .then((data) => {
+          setRooms(data);
+        });
+        chatRoomCreatedCallback(data);
+      },
+      groupRoomCreatedCallback: (data) => {
+        initApp(qiscus);
+        qiscus.userAdapter.loadRoomList()
+        .then((data) => {
+          setRooms(data);
+        });
+        groupRoomCreatedCallback(data);
+      },
+      commentReadCallback: (data) => {
+        commentReadCallback(data);
+      },
+      loginErrorCallback: (data) => {
+        loginErrorCallback(data);
+      },
+      presenceCallback: (data) => {
+        presenceCallback(data);
+      },
+      typingCallback: (data) => {
+        typingCallback(data);
       },
     },
   });
