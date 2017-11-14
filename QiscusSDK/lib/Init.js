@@ -1,5 +1,17 @@
 import QiscusSDK from './qiscusSdk';
 
+let callbackOptions = {};
+
+const optionIndex = [
+  'commentDeliveredCallback',
+  'chatRoomCreatedCallback',
+  'groupRoomCreatedCallback',
+  'commentReadCallback',
+  'loginErrorCallback',
+  'presenceCallback',
+  'typingCallback',
+];
+
 export function InitApp(config) {
   let qiscus = new QiscusSDK();
   let {
@@ -7,16 +19,12 @@ export function InitApp(config) {
     receiveNewMessage,
     setRooms,
     userAuth,
-    callbackOptions: {
-      commentDeliveredCallback,
-      chatRoomCreatedCallback,
-      groupRoomCreatedCallback,
-      commentReadCallback,
-      loginErrorCallback,
-      presenceCallback,
-      typingCallback,
-    },
   } = config;
+  if (config.callbackOptions) {
+    optionIndex.map((value) => {
+      callbackOptions[value] = config.callbackOptions[value];
+    });
+  }
   qiscus.init({
     AppId: userAuth.appID,
     options: {
@@ -31,7 +39,7 @@ export function InitApp(config) {
         receiveNewMessage(data);
       },
       commentDeliveredCallback: (data) => {
-        commentDeliveredCallback(data);
+        callbackOptions.commentDeliveredCallback(data);
       },
       chatRoomCreatedCallback: (data) => {
         initApp(qiscus);
@@ -39,7 +47,7 @@ export function InitApp(config) {
         .then((data) => {
           setRooms(data);
         });
-        chatRoomCreatedCallback(data);
+        callbackOptions.chatRoomCreatedCallback(data);
       },
       groupRoomCreatedCallback: (data) => {
         initApp(qiscus);
@@ -47,19 +55,19 @@ export function InitApp(config) {
         .then((data) => {
           setRooms(data);
         });
-        groupRoomCreatedCallback(data);
+        callbackOptions.groupRoomCreatedCallback(data);
       },
       commentReadCallback: (data) => {
-        commentReadCallback(data);
+        callbackOptions.commentReadCallback(data);
       },
       loginErrorCallback: (data) => {
-        loginErrorCallback(data);
+        callbackOptions.loginErrorCallback(data);
       },
       presenceCallback: (data) => {
-        presenceCallback(data);
+        callbackOptions.presenceCallback(data);
       },
       typingCallback: (data) => {
-        typingCallback(data);
+        callbackOptions.typingCallback(data);
       },
     },
   });
