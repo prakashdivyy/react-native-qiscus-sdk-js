@@ -1,18 +1,39 @@
 import React, { Component } from 'react';
-import {View, Image, Text, ActivityIndicator} from 'react-native';
+import {View, Image, Text, ActivityIndicator, Linking, TouchableOpacity} from 'react-native';
 import autobind from 'class-autobind';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Lightbox from 'react-native-lightbox';
 import styles from "./styles";
 
 function renderMessage(isFile: boolean, message: string) {
   if (isFile) {
     let uri = message.split("[file] ")[1].split(" [/file]")[0];
-    return (
-      <Image
-        style={styles.picture}
-        source={{uri: uri}}
-      />
-    );
+    let tempArrayUri = uri.split('/');
+    let file = tempArrayUri[tempArrayUri.length - 1].split('.');
+    let ext = file[file.length - 1].toLowerCase()
+    if ( ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif' || ext === 'svg') {
+      return (
+        <View style={styles.picture}>
+          <Lightbox underlayColor="white" activeProps={{style: styles.pictureLoad}}>
+            <Image
+              style={styles.picture}
+              source={{uri: uri}}
+            />
+          </Lightbox>
+        </View>
+      );
+    } else {
+      return (
+        <TouchableOpacity onPress={() => {
+            Linking.openURL(`${uri}`);
+          }}
+          style={styles.files}
+        >
+          <Icon name="description" size={80} /><Text style={styles.label}>{file}</Text>
+        </TouchableOpacity>
+      );
+    }
+
   } else {
     return (
       <Text>

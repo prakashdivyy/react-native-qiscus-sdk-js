@@ -18,6 +18,20 @@ export default{
     height: 0.20 * height,
     width: 0.45 * width,
   },
+  pictureLoad: {
+    height: 0.80 * height,
+  },
+  files: {
+    flexDirection: 'row',
+    backgroundColor: '#f4f4f4',
+    width: 0.45 * width,
+    justifyContent: 'flex-start',
+  },
+  label: {
+    width: 80,
+    marginTop: 10,
+    fontSize: 9,
+  },
   breaker: {
     height: 25,
     backgroundColor: '#e0f2f1',
