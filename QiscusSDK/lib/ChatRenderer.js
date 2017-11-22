@@ -1,26 +1,10 @@
 //@flow
 import React, { Component } from 'react';
-import { ScrollView, View, Keyboard, Animated, NativeModules, Image, Platform, Dimensions } from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator, TextInput, TouchableOpacity, Keyboard, Dimensions } from 'react-native';
 import autobind from 'class-autobind';
 import styles from './styles';
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Text,
-  Button,
-  Icon,
-  Left,
-  Right,
-  Input,
-  Body,
-  Item,
-  Card,
-  CardItem,
-  ActionSheet,
-} from "native-base";
 import {ChatComponent} from './ChatComponent';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import FilePicker from './FileUploader';
 const {height, width} = Dimensions.get('window');
 
@@ -32,59 +16,59 @@ export class ChatRenderer extends Component {
       comments: null,
       newMessage: null,
       clicked: null,
-      formStyle: styles.formStyle,
+      formStyle: {},
+      containerHeight: 0,
+      isSending: false,
     };
   }
   componentWillMount() {
-    const {props: {room, initApp, qiscus}, state: {comments}} = this;
+    const {props: {room, initApp, qiscus}} = this;
     qiscus.chatGroup(room.id)
     .then((data) => {
       initApp(qiscus);
-      this._setComments(data.comments);
+      this._updateComments(data.comments);
     }).catch(err => console.log(err));
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
-  }
-  componentWillReceiveProps(nextProps) {
-    this._setCommentsScroll(nextProps.message);
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide);
   }
   componentWillUnmount () {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
-  _keyboardDidShow() {
+  _keyboardWillShow() {
     this.setState({
       formStyle: {
-        height: 45,
-        bottom: 0,
-        flexDirection: 'row',
-        marginTop: -0.42 * height,
-        backgroundColor: '#fff',
+        flex: 1,
     }});
   }
-  _keyboardDidHide() {
+  _keyboardWillHide() {
     this.setState({
-      formStyle: styles.formStyle});
+      formStyle: {}});
   }
-  _measureChatContainer() {
-    if (this.refs.chatContainer) {
-      this.refs.chatContainer.measure((a, b, width, height, px, py) => {
-          this._scrollAction(height);
+  componentWillReceiveProps(nextProps) {
+    let {message, qiscus: {userData}} = nextProps;
+    if (message && this.state.comments) {
+      if (this.state.comments[0].comment_before_id !== message[0].comment_before_id) {
+        if (message[0].user_id !== userData.id) {
+          this._updateComments(nextProps.message);
+          this._measureChatContainer(this.state.containerHeight, 'new props');
         }
-      );
+      }
     }
   }
-  _setComments(comments: Array<Object>) {
+  _updateComments(comments: Array<{}>) {
     this.setState({
       comments: comments,
     });
   }
-  _setCommentsScroll(nextProps: Array<Object>) {
-    if (JSON.stringify(this.state.comments) !== JSON.stringify(nextProps)) {
-      this.setState({
-        comments: nextProps,
-      });
-      this._measureChatContainer();
+  _measureChatContainer(containerHeight, caller) {
+    if (this.refs.chatContainer) {
+      this.refs.chatContainer.measure((a, b, width, height, px, py) => {
+          if (containerHeight > height) {
+            this._scrollAction(containerHeight - height);
+          }
+        }
+      );
     }
   }
   _setToken(token: string) {
@@ -93,7 +77,7 @@ export class ChatRenderer extends Component {
     });
   }
   _scrollAction(height: number) {
-    _scrollView.scrollTo({x: 0, y: height, animated: true});
+    // _scrollView.scrollTo({x: 0, y: height, animated: true});
     _scrollView.scrollToEnd({animated: true});
   }
   _setNewMessage(text: string) {
@@ -108,35 +92,49 @@ export class ChatRenderer extends Component {
       newMessage: null,
     });
     if (message) {
-      qiscus.submitComment(room.id, message, null, null, null);
+      qiscus.submitComment(room.id, message, null, null, null)
+      .then(this.setState({isSending: false}));
     }
   }
 
   render() {
-    let {props: {message, room, qiscus}, state: {comments}} = this;
+    let {props: {message, room, qiscus}, state: {comments, newMessage, isSending}} = this;
     if (!comments) {
-      return <View style={{marginTop: 30, alignItems: 'center', justifyContent: 'center'}}><Text>Loading chats...</Text></View>
+      return (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <ActivityIndicator style={[{alignItems: 'center', justifyContent: 'center'}]} size="large" color="#6fbf15" />
+        </View>
+      );
     }
     return (
       <View style={styles.chatContainer}>
         <View style={styles.commentList} ref="chatContainer">
           <ScrollView
             ref={(scrollView) => { _scrollView = scrollView; }}
-            onLayout={(event) => {
-              this._measureChatContainer();
-            }}
-            >
-            {ChatComponent(qiscus)}
+          >
+            <ChatComponent
+              qiscus={qiscus}
+              isSending={isSending}
+              updateHeight={(height) => {this._measureChatContainer(height,'scrollView');this.setState({containerHeight: height});}}
+            />
+            <View style={[styles.breaker]} />
           </ScrollView>
         </View>
-        <View style={this.state.formStyle}>
-          <Item rounded style={styles.textInput}>
-            <Input value={this.state.newMessage} placeholder="Say something" multiline={true} onChangeText={(text) => this._setNewMessage(text)} />
-          </Item>
-          <FilePicker sendMessage={this._sendMessage} />
-          <Button transparent style={styles.btnSend} onPress={() => this._sendMessage(this.state.newMessage)}>
-            <Icon name='md-send' style={styles.sendIcon} />
-          </Button>
+        <View style={[styles.formStyle, this.state.formStyle]}>
+          {isSending ?
+            <View style={{width: 0.80 * width, justifyContent: 'center', flexDirection: 'row'}}>
+              <ActivityIndicator style={[{alignItems: 'center', justifyContent: 'center'}]} size="large" color="#6fbf15" />
+            </View> :
+            <TextInput style={styles.textInput} underlineColorAndroid='transparent'
+              value={newMessage} placeholder="Say something" multiline={true}
+              onChangeText={(text) => this._setNewMessage(text)}
+            />
+          }
+          <FilePicker sendMessage={this._sendMessage} setSending={(value) => this.setState({isSending: value})} />
+          {isSending ? null :<TouchableOpacity style={{padding: 2}} onPress={() => this._sendMessage(newMessage)}>
+              <Icon name="send" size={30} color="#444" style={{marginRight: 5}}/>
+            </TouchableOpacity>
+          }
         </View>
       </View>
     );
