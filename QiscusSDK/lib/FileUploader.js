@@ -72,14 +72,18 @@ export default class FilePicker extends Component {
     this.ActionSheet.show();
   }
   render() {
-    let {state: {selected}} = this;
+    let {
+      props: {
+        attachIconStyle
+      },
+      state: {selected}} = this;
     if (selected === 1) {
       this._pickImage();
     }
     return (
       <View>
         <TouchableOpacity style={{padding: 2}} onPress={() => this._showActionSheet()}>
-          <Icon name="paperclip" size={30} color="#444" style={{marginRight: 5}} />
+          <Icon name="paperclip" size={30} style={[{marginRight: 5, color: '#444'}, {...attachIconStyle}]} />
         </TouchableOpacity>
         <ActionSheet
           ref={o => this.ActionSheet = o}

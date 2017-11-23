@@ -117,7 +117,6 @@ export default{
     justifyContent: 'flex-start',
   },
   formStyle: {
-    height: 45,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#fff',

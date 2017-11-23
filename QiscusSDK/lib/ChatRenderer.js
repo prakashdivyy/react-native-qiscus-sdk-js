@@ -98,17 +98,34 @@ export class ChatRenderer extends Component {
   }
 
   render() {
-    let {props: {message, room, qiscus}, state: {comments, newMessage, isSending}} = this;
+    let activityIndicatorColor = '#6fbf15';
+    let chatListBackground = {};
+    let {
+      props: {
+        message, room, qiscus, attachIconStyle,
+        chatListStyle, textInputStyle, sendIconStyle,
+        messageItemRightStyle, messageItemLeftStyle,
+        senderTextStyle, messageTextStyle, loadingIndicatorColor,
+      },
+      state: {
+        comments, newMessage, isSending,
+      }} = this;
+      if (loadingIndicatorColor) {
+        activityIndicatorColor = loadingIndicatorColor;
+      }
+      if (chatListStyle) {
+        chatListBackground = {backgroundColor: chatListStyle.backgroundColor};
+      }
     if (!comments) {
       return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <ActivityIndicator style={[{alignItems: 'center', justifyContent: 'center'}]} size="large" color="#6fbf15" />
+        <View style={[{flex: 1, alignItems: 'center', justifyContent: 'center'}, {...chatListBackground}]}>
+          <ActivityIndicator style={[{alignItems: 'center', justifyContent: 'center'}]} size="large" color={activityIndicatorColor} />
         </View>
       );
     }
     return (
       <View style={styles.chatContainer}>
-        <View style={styles.commentList} ref="chatContainer">
+        <View style={[styles.commentList, {...chatListStyle}]} ref="chatContainer">
           <ScrollView
             ref={(scrollView) => { _scrollView = scrollView; }}
           >
@@ -116,23 +133,28 @@ export class ChatRenderer extends Component {
               qiscus={qiscus}
               isSending={isSending}
               updateHeight={(height) => {this._measureChatContainer(height,'scrollView');this.setState({containerHeight: height});}}
+              messageItemRightStyle={messageItemRightStyle}
+              messageItemLeftStyle={messageItemLeftStyle}
+              senderTextStyle={senderTextStyle}
+              messageTextStyle={messageTextStyle}
+              loadingIndicatorColor={loadingIndicatorColor}
             />
-            <View style={[styles.breaker]} />
+            <View style={[styles.breaker, {...chatListBackground}]} />
           </ScrollView>
         </View>
         <View style={[styles.formStyle, this.state.formStyle]}>
           {isSending ?
             <View style={{width: 0.80 * width, justifyContent: 'center', flexDirection: 'row'}}>
-              <ActivityIndicator style={[{alignItems: 'center', justifyContent: 'center'}]} size="large" color="#6fbf15" />
+              <ActivityIndicator style={[{alignItems: 'center', justifyContent: 'center'}]} size="large" color={activityIndicatorColor} />
             </View> :
-            <TextInput style={styles.textInput} underlineColorAndroid='transparent'
+            <TextInput style={[styles.textInput, {...textInputStyle}]} underlineColorAndroid='transparent'
               value={newMessage} placeholder="Say something" multiline={true}
               onChangeText={(text) => this._setNewMessage(text)}
             />
           }
-          <FilePicker sendMessage={this._sendMessage} setSending={(value) => this.setState({isSending: value})} />
+          <FilePicker attachIconStyle={attachIconStyle} sendMessage={this._sendMessage} setSending={(value) => this.setState({isSending: value})} />
           {isSending ? null :<TouchableOpacity style={{padding: 2}} onPress={() => this._sendMessage(newMessage)}>
-              <Icon name="send" size={30} color="#444" style={{marginRight: 5}}/>
+              <Icon name="send" size={30} style={[{marginRight: 5, color: '#444'}, {...sendIconStyle}]}/>
             </TouchableOpacity>
           }
         </View>
