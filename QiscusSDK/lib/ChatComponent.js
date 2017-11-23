@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Lightbox from 'react-native-lightbox';
 import styles from "./styles";
 
-function renderMessage(isFile: boolean, message: string) {
+function renderMessage(isFile: boolean, message: string, messageTextStyle: {}) {
   if (isFile) {
     let uri = message.split("[file] ")[1].split(" [/file]")[0];
     let tempArrayUri = uri.split('/');
@@ -36,7 +36,7 @@ function renderMessage(isFile: boolean, message: string) {
 
   } else {
     return (
-      <Text>
+      <Text style={{...messageTextStyle}}>
         {message}
       </Text>
     );
@@ -44,7 +44,23 @@ function renderMessage(isFile: boolean, message: string) {
 }
 
 export function ChatComponent(props: Object) {
-  const {qiscus, updateHeight, isSending} = props;
+  const {
+    qiscus, updateHeight, isSending,
+    messageItemLeftStyle, messageItemRightStyle,
+    senderTextStyle, messageTextStyle, loadingIndicatorColor,
+  } = props;
+  let activityIndicatorColor = '#6fbf15';
+  let backgroundRightTopColor = {};
+  let backgroundLeftTopColor = {};
+  if (loadingIndicatorColor) {
+    activityIndicatorColor = loadingIndicatorColor;
+  }
+  if (messageItemRightStyle) {
+    backgroundRightTopColor = {borderTopColor: messageItemRightStyle.backgroundColor};
+  }
+  if (messageItemLeftStyle) {
+    backgroundLeftTopColor = {borderTopColor: messageItemLeftStyle.backgroundColor};
+  }
   const comments = qiscus.selected.comments;
   const user = qiscus.userData;
   let currentUserName = '';
@@ -75,7 +91,10 @@ export function ChatComponent(props: Object) {
             return (
               <View
                 key={data.id}
-                style={[styles.messageContainerRight, {paddingTop: marginChat, marginBottom: heighChat}]}>
+                style={[
+                  styles.messageContainerRight,
+                  {paddingTop: marginChat, marginBottom: heighChat},
+                ]}>
               <View style={styles.cardContainerRight}>
                 {data.isDelivered && !data.isRead ?
                 <View style={{height: 25, padding: 3, alignItems: 'center', justifyContent: 'center'}}>
@@ -87,14 +106,20 @@ export function ChatComponent(props: Object) {
                     <Icon name="done-all" size={12} color="#4add17" style={{}}/>
                   </View> : null
                 }
-                <View style={[styles.cardRightContent, {marginRight: marginMessage}]}>
-                  {isSamePerson ? null : <View style={{paddingBottom: 5, borderBottomColor: '#b3bab5', borderBottomWidth: 1, marginBottom: 5}}><Text style={{fontWeight: 'bold'}}>{data.username_as}</Text></View>}
+                <View style={[
+                  styles.cardRightContent,
+                  {marginRight: marginMessage},
+                  {...messageItemRightStyle}
+                ]}>
+                  {isSamePerson ? null : <View style={{paddingBottom: 5, borderBottomColor: '#b3bab5', borderBottomWidth: 1, marginBottom: 5}}>
+                    <Text style={[{fontWeight: 'bold'}, {...senderTextStyle}]}>{data.username_as}</Text>
+                  </View>}
                   <View>
-                    {renderMessage(isFile, data.message)}
+                    {renderMessage(isFile, data.message, messageTextStyle)}
                   </View>
                 </View>
                 {
-                  isSamePerson ? null : <View style={styles.arrowRight} />
+                  isSamePerson ? null : <View style={[styles.arrowRight, {...backgroundRightTopColor}]} />
                 }
               </View>
               {!isSamePerson ?
@@ -106,12 +131,15 @@ export function ChatComponent(props: Object) {
               </View>
             );
           } else {
-            return <View key={data.id}><ActivityIndicator key={data.id} style={[{marginBottom: heighChat, alignItems: 'center', justifyContent: 'center'}]} size="large" color="#6fbf15" /></View>;
+            return <View key={data.id}><ActivityIndicator key={data.id} style={[{marginBottom: heighChat, alignItems: 'center', justifyContent: 'center'}]} size="large" color={activityIndicatorColor} /></View>;
           }
         } else {
           return (
             <View
-              style={[styles.messageContainerLeft, {paddingTop: marginChat, marginBottom: heighChat}]} key={data.id}>
+              style={[
+                styles.messageContainerLeft,
+                {paddingTop: marginChat, marginBottom: heighChat},
+              ]} key={data.id}>
               {!isSamePerson ?
                 <Image
                   style={{height: 40, width: 40, borderRadius: 20, marginLeft: 5}}
@@ -120,12 +148,18 @@ export function ChatComponent(props: Object) {
               }
               <View style={styles.cardContainerLeft}>
                 {
-                  isSamePerson ? null : <View style={styles.arrowLeftTop} />
+                  isSamePerson ? null : <View style={[styles.arrowLeftTop, {...backgroundLeftTopColor}]} />
                 }
-                <View style={[styles.cardLeftContent, {marginLeft: marginMessage}]}>
-                  {isSamePerson ? null : <View style={{paddingBottom: 5, borderBottomColor: '#b3bab5', borderBottomWidth: 1, marginBottom: 5}}><Text style={{fontWeight: 'bold'}}>{data.username_as}</Text></View>}
+                <View style={[
+                  styles.cardLeftContent,
+                  {marginLeft: marginMessage},
+                  {...messageItemLeftStyle},
+                ]}>
+                  {isSamePerson ? null : <View style={{paddingBottom: 5, borderBottomColor: '#b3bab5', borderBottomWidth: 1, marginBottom: 5}}>
+                    <Text style={{fontWeight: 'bold'}, {...senderTextStyle}}>{data.username_as}</Text>
+                  </View>}
                   <View>
-                    {renderMessage(isFile, data.message)}
+                    {renderMessage(isFile, data.message, messageTextStyle)}
                   </View>
                 </View>
               </View>

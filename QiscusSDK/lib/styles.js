@@ -33,7 +33,7 @@ export default{
     fontSize: 9,
   },
   breaker: {
-    height: 25,
+    height: 45,
     backgroundColor: '#e0f2f1',
   },
   commentList: {
@@ -117,7 +117,6 @@ export default{
     justifyContent: 'flex-start',
   },
   formStyle: {
-    height: 45,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#fff',
