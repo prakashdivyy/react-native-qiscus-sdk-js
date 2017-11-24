@@ -18,6 +18,7 @@ export class ChatRenderer extends Component {
       clicked: null,
       formStyle: {},
       containerHeight: 0,
+      chatHeight: 0,
       isSending: false,
     };
   }
@@ -28,22 +29,35 @@ export class ChatRenderer extends Component {
       initApp(qiscus);
       this._updateComments(data.comments);
     }).catch(err => console.log(err));
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide);
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow);
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardDidHide);
   }
   componentWillUnmount () {
-    this.keyboardDidShowListener.remove();
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
     this.keyboardDidHideListener.remove();
   }
-  _keyboardWillShow() {
+  _keyboardWillShow(e) {
+    let {state: {chatHeight, containerHeight}} = this;
+    if (containerHeight > chatHeight) {
+      // _scrollView.scrollTo({x: 0, y: this.state.containerHeight - (Math.round(containerHeight/chatHeight) * e.endCoordinates.height), animated: true});
+    }
     this.setState({
       formStyle: {
         flex: 1,
     }});
   }
-  _keyboardWillHide() {
+  _keyboardWillHide(e) {
+    let {state: {chatHeight, containerHeight}} = this;
+    if (containerHeight > chatHeight) {
+      // _scrollView.scrollTo({x: 0, y: this.state.containerHeight - ((Math.round(containerHeight/chatHeight) + 2)*e.endCoordinates.height), animated: true});
+    }
     this.setState({
       formStyle: {}});
+  }
+  _keyboardDidHide(e) {
+    this._sendMessage(this.state.newMessage);
   }
   componentWillReceiveProps(nextProps) {
     let {message, qiscus: {userData}} = nextProps;
@@ -64,6 +78,7 @@ export class ChatRenderer extends Component {
   _measureChatContainer(containerHeight, caller) {
     if (this.refs.chatContainer) {
       this.refs.chatContainer.measure((a, b, width, height, px, py) => {
+        this.setState({chatHeight: height});
           if (containerHeight > height) {
             this._scrollAction(containerHeight - height);
           }
@@ -77,7 +92,6 @@ export class ChatRenderer extends Component {
     });
   }
   _scrollAction(height: number) {
-    // _scrollView.scrollTo({x: 0, y: height, animated: true});
     _scrollView.scrollToEnd({animated: true});
   }
   _setNewMessage(text: string) {
@@ -87,7 +101,6 @@ export class ChatRenderer extends Component {
   }
   _sendMessage(message: string) {
     let {props: {room, qiscus}} = this;
-    Keyboard.dismiss();
     this.setState({
       newMessage: null,
     });
@@ -153,7 +166,7 @@ export class ChatRenderer extends Component {
             />
           }
           <FilePicker attachIconStyle={attachIconStyle} sendMessage={this._sendMessage} setSending={(value) => this.setState({isSending: value})} />
-          {isSending ? null :<TouchableOpacity style={{padding: 2}} onPress={() => this._sendMessage(newMessage)}>
+          {isSending ? null :<TouchableOpacity style={{padding: 2}} onPress={() => {Keyboard.dismiss(); Platform.OS === 'android' ? this._sendMessage(this.state.newMessage) : null;}}>
               <Icon name="send" size={30} style={[{marginRight: 5, color: '#444'}, {...sendIconStyle}]}/>
             </TouchableOpacity>
           }
