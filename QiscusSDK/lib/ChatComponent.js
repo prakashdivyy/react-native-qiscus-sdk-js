@@ -68,6 +68,7 @@ export function ChatComponent(props: Object) {
   let marginChat = 10;
   let marginMessage = 0;
   let heighChat = 0;
+  let marginBottom = 0;
   return (
     <View onLayout={(event) => {
       updateHeight(event.nativeEvent.layout.height);
@@ -85,7 +86,10 @@ export function ChatComponent(props: Object) {
           marginMessage = 6;
           isSamePerson = true;
         }
-        heighChat = comments.length - 1 == index ? 50 : 0;
+        if (index % 6 === 0) {
+          heighChat += 30;
+        }
+        marginBottom = comments.length - 1 == index ? heighChat : 0;
         if (user.username === data.username_as) {
           if (data.username_real) {
             return (
@@ -93,7 +97,7 @@ export function ChatComponent(props: Object) {
                 key={data.id}
                 style={[
                   styles.messageContainerRight,
-                  {paddingTop: marginChat, marginBottom: heighChat},
+                  {paddingTop: marginChat, marginBottom: marginBottom},
                 ]}>
               <View style={styles.cardContainerRight}>
                 {data.isDelivered && !data.isRead ?
@@ -131,14 +135,14 @@ export function ChatComponent(props: Object) {
               </View>
             );
           } else {
-            return <View key={data.id}><ActivityIndicator key={data.id} style={[{marginBottom: heighChat, alignItems: 'center', justifyContent: 'center'}]} size="large" color={activityIndicatorColor} /></View>;
+            return <View key={data.id}><ActivityIndicator key={data.id} style={[{marginBottom: marginBottom, alignItems: 'center', justifyContent: 'center'}]} size="large" color={activityIndicatorColor} /></View>;
           }
         } else {
           return (
             <View
               style={[
                 styles.messageContainerLeft,
-                {paddingTop: marginChat, marginBottom: heighChat},
+                {paddingTop: marginChat, marginBottom: marginBottom},
               ]} key={data.id}>
               {!isSamePerson ?
                 <Image
