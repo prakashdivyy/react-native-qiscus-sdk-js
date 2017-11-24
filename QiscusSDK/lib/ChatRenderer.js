@@ -1,6 +1,6 @@
 //@flow
 import React, { Component } from 'react';
-import { ScrollView, View, Text, ActivityIndicator, TextInput, TouchableOpacity, Keyboard, Dimensions } from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator, TextInput, TouchableOpacity, Keyboard, Dimensions, Platform } from 'react-native';
 import autobind from 'class-autobind';
 import styles from './styles';
 import {ChatComponent} from './ChatComponent';
@@ -45,7 +45,7 @@ export class ChatRenderer extends Component {
     }
     this.setState({
       formStyle: {
-        flex: 1,
+        height: e.endCoordinates.height,
     }});
   }
   _keyboardWillHide(e) {
