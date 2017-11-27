@@ -45,7 +45,7 @@ export class ChatRenderer extends Component {
     }
     this.setState({
       formStyle: {
-        height: e.endCoordinates.height,
+        height: e.endCoordinates.height + 50,
     }});
   }
   _keyboardWillHide(e) {
