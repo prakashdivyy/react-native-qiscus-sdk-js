@@ -1,6 +1,6 @@
 {
   "name": "react-native-qiscus-sdk",
-  "version": "0.1.9",
+  "version": "0.1.12",
   "description": "react-native qiscus sdk",
   "main": "QiscusSDK/lib/index.js",
   "scripts": {

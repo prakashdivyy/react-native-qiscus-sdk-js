@@ -23,24 +23,30 @@ export default class FilePicker extends Component {
     this.actionSheet = null;
     autobind(this);
   }
+  _unSelect() {
+    this.setState({
+      selected: null,
+    });
+  }
   _pickImage() {
     let {props: {sendMessage, setSending}} = this;
     ImagePicker.showImagePicker(options, (response) => {
       if (response.didCancel) {
+        this._unSelect();
         setSending(false);
         console.log('User cancelled image picker');
       }
       else if (response.error) {
+        this._unSelect();
         setSending(false);
         console.log('ImagePicker Error: ', response.error);
       }
       else if (response.customButton) {
+        this._unSelect();
         console.log('User tapped custom button: ', response.customButton);
       }
       else {
-        this.setState({
-          selected: null,
-        });
+        this._unSelect();
         setSending(true);
         let source = Platform.OS === 'ios' ? response.uri : response.path;
         const settings = {
