@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ImagePicker from 'react-native-image-picker';
 import {View, Platform, TouchableOpacity} from 'react-native';
-import FileUploader from 'react-native-file-uploader';
+import FileUploader from 'react-native-files-uploaders';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Button} from 'native-base';
 import ActionSheet from 'react-native-actionsheet';

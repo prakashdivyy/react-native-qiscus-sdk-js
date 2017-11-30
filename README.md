@@ -18,7 +18,7 @@ react-native link react-native-vector-icons
 
 react-native link react-native-image-picker
 
-react-native link react-native-file-uploader
+react-native link react-native-files-uploaders
 
 ```
 
