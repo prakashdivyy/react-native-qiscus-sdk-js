@@ -4,11 +4,13 @@
 
 ### 1) Install from npm
 
-`npm install --save react-native-qiscus-sdk && npm install`
+Use specific version for react-native >= 0.49.0
 
-Beware please since this SDK use native-base component which require `"react-native": "0.45.1"` higher react-native version not supported yet, lower version are welcome.
+`npm install --save react-native-qiscus-sdk@0.2.0 && npm install`
 
-You can specified react-native version in your new project by run this command `react-native init AppSDK --version 0.45.1`
+Use specific version for react-native 0.45.*
+
+`npm install --save react-native-qiscus-sdk@0.1.12 && npm install`
 
 ### 2) Run React Native Link
 
@@ -18,7 +20,11 @@ react-native link react-native-vector-icons
 
 react-native link react-native-image-picker
 
+// only for react-native >=0.49.* run this:
 react-native link react-native-files-uploaders
+
+// only for react-native 0.45.* run this:
+react-native link react-native-file-uploader
 
 ```
 
