@@ -382,7 +382,7 @@ AppRegistry.registerComponent('AppSDK', () => AppSDK);
 
 ```
 
-Working example are here: [react native example](https://github.com/qiscus/qiscus-react-native-js-example)
+Working example can be found here: [react native example](https://github.com/qiscus/qiscus-react-native-js-example)
 
 
 #### Run `react-native run-android / react-native run-ios`
