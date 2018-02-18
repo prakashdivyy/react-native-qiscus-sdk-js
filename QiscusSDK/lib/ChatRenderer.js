@@ -133,7 +133,7 @@ export class ChatRenderer extends Component {
         message, room, qiscus, attachIconStyle,
         chatListStyle, textInputStyle, sendIconStyle,
         messageItemRightStyle, messageItemLeftStyle,
-        senderTextStyle, messageTextStyle, loadingIndicatorColor,
+        senderTextStyle, messageTextStyle, timeTextStyle, loadingIndicatorColor,
       },
       state: {
         comments, newMessage, isSending,
@@ -177,6 +177,7 @@ export class ChatRenderer extends Component {
               messageItemLeftStyle={messageItemLeftStyle}
               senderTextStyle={senderTextStyle}
               messageTextStyle={messageTextStyle}
+              timeTextStyle={timeTextStyle}
               loadingIndicatorColor={loadingIndicatorColor}
             />
             <View style={[styles.breaker, {...chatListBackground}]} />
