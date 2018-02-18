@@ -101,13 +101,28 @@ export class ChatRenderer extends Component {
   }
   _sendMessage(message: string) {
     let {props: {room, qiscus}} = this;
+
+
+    this._measureChatContainer(this.state.containerHeight, 'send message');
+
     this.setState({
       newMessage: null,
     });
     if (message) {
-      qiscus.submitComment(room.id, message, null, null, null)
+      qiscus.sendComment(room.id, message, null, null, null)
       .then(this.setState({isSending: false}));
     }
+  }
+
+  _loadMore() {
+    let {props: {qiscus}} = this;
+    qiscus.loadComments(qiscus.selected.id, qiscus.selected.comments[0].id, null, false)
+    .then( res => {
+    // this is not ideal, need to improve this part
+      this.setState({breakerHeight: this.state.breakerHeight + (5 * res.length)})
+    }, err => {
+      throw new Error(err);
+    });
   }
 
   render() {
@@ -142,10 +157,22 @@ export class ChatRenderer extends Component {
           <ScrollView
             ref={(scrollView) => { _scrollView = scrollView; }}
           >
+
+          <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} onPress={() => this._loadMore()}>
+            <Text style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            Load More …
+            </Text>
+          </TouchableOpacity> 
+
             <ChatComponent
               qiscus={qiscus}
               isSending={isSending}
-              updateHeight={(height) => {this._measureChatContainer(height,'scrollView');this.setState({containerHeight: height});}}
+              updateHeight={(height) => {
+                if (this.state.comments.length <= 20){
+                  this._measureChatContainer(height,'scrollView');
+                }
+                this.setState({containerHeight: height});
+              }}
               messageItemRightStyle={messageItemRightStyle}
               messageItemLeftStyle={messageItemLeftStyle}
               senderTextStyle={senderTextStyle}
