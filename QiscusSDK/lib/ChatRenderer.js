@@ -1,6 +1,6 @@
 //@flow
 import React, { Component } from 'react';
-import { ScrollView, View, Text, ActivityIndicator, TextInput, TouchableOpacity, Keyboard, Dimensions, Platform } from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator, TextInput, TouchableOpacity, Keyboard, Dimensions, Platform, RefreshControl } from 'react-native';
 import autobind from 'class-autobind';
 import styles from './styles';
 import {ChatComponent} from './ChatComponent';
@@ -117,13 +117,12 @@ export class ChatRenderer extends Component {
 
   _loadMore() {
     let {props: {qiscus}} = this;
-    if (qiscus.selected.comments.length > 20){
+    if (qiscus.selected.comments.length >= 20){
       this.setState({refreshing: true});
       qiscus.loadMore(qiscus.selected.comments[0].id)
       .then( res => {
-      // this is not ideal, need to improve this part
-        this.setState({refreshing: true});
-        this.setState({breakerHeight: this.state.breakerHeight + (5 * res.length)})
+        this.setState({refreshing: false});
+        console.log("LOADMORE", res)
       }, err => {
         throw new Error(err);
       });      
