@@ -20,6 +20,7 @@ export class ChatRenderer extends Component {
       containerHeight: 0,
       chatHeight: 0,
       isSending: false,
+      refreshing: false,
     };
   }
   componentWillMount() {
@@ -116,10 +117,12 @@ export class ChatRenderer extends Component {
 
   _loadMore() {
     let {props: {qiscus}} = this;
-    if (qiscus.selected.comments.length > 0){
+    if (qiscus.selected.comments.length > 20){
+      this.setState({refreshing: true});
       qiscus.loadMore(qiscus.selected.comments[0].id)
       .then( res => {
       // this is not ideal, need to improve this part
+        this.setState({refreshing: true});
         this.setState({breakerHeight: this.state.breakerHeight + (5 * res.length)})
       }, err => {
         throw new Error(err);
@@ -158,13 +161,13 @@ export class ChatRenderer extends Component {
         <View style={[styles.commentList, {...chatListStyle}]} ref="chatContainer">
           <ScrollView
             ref={(scrollView) => { _scrollView = scrollView; }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._loadMore.bind(this)}
+              />
+            }
           >
-
-          <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} onPress={() => this._loadMore()}>
-            <Text style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            Load More …
-            </Text>
-          </TouchableOpacity> 
 
             <ChatComponent
               qiscus={qiscus}
