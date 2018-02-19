@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Lightbox from 'react-native-lightbox';
 import styles from "./styles";
 
-function renderMessage(isFile: boolean, message: string, messageTextStyle: {}) {
+function renderMessage(isFile: boolean, message: string, time: string, messageTextStyle: {}, timeTextStyle: {}) {
   if (isFile) {
     let uri = message.split("[file] ")[1].split(" [/file]")[0];
     let tempArrayUri = uri.split('/');
@@ -36,9 +36,14 @@ function renderMessage(isFile: boolean, message: string, messageTextStyle: {}) {
 
   } else {
     return (
+      <View>
       <Text style={{...messageTextStyle}}>
         {message}
       </Text>
+      <Text style={{...timeTextStyle}}>
+        {time}
+      </Text>
+      </View>
     );
   }
 }
@@ -47,7 +52,7 @@ export function ChatComponent(props: Object) {
   const {
     qiscus, updateHeight, isSending,
     messageItemLeftStyle, messageItemRightStyle,
-    senderTextStyle, messageTextStyle, loadingIndicatorColor,
+    senderTextStyle, messageTextStyle, timeTextStyle, loadingIndicatorColor,
   } = props;
   let activityIndicatorColor = '#6fbf15';
   let backgroundRightTopColor = {};
@@ -89,7 +94,7 @@ export function ChatComponent(props: Object) {
         if (index % 6 === 0) {
           heighChat += 30;
         }
-        marginBottom = comments.length - 1 == index ? heighChat : 0;
+        marginBottom = comments.length - 1 == index ? 0 : 0;
         if (user.username === data.username_as) {
           if (data.username_real) {
             return (
@@ -119,7 +124,7 @@ export function ChatComponent(props: Object) {
                     <Text style={[{fontWeight: 'bold'}, {...senderTextStyle}]}>{data.username_as}</Text>
                   </View>}
                   <View>
-                    {renderMessage(isFile, data.message, messageTextStyle)}
+                    {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
                   </View>
                 </View>
                 {
@@ -163,7 +168,7 @@ export function ChatComponent(props: Object) {
                     <Text style={{fontWeight: 'bold'}, {...senderTextStyle}}>{data.username_as}</Text>
                   </View>}
                   <View>
-                    {renderMessage(isFile, data.message, messageTextStyle)}
+                    {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
                   </View>
                 </View>
               </View>

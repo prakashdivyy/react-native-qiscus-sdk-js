@@ -1,6 +1,6 @@
 //@flow
 import React, { Component } from 'react';
-import { ScrollView, View, Text, ActivityIndicator, TextInput, TouchableOpacity, Keyboard, Dimensions, Platform } from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator, TextInput, TouchableOpacity, Keyboard, Dimensions, Platform, RefreshControl } from 'react-native';
 import autobind from 'class-autobind';
 import styles from './styles';
 import {ChatComponent} from './ChatComponent';
@@ -20,6 +20,7 @@ export class ChatRenderer extends Component {
       containerHeight: 0,
       chatHeight: 0,
       isSending: false,
+      refreshing: false,
     };
   }
   componentWillMount() {
@@ -61,7 +62,7 @@ export class ChatRenderer extends Component {
   }
   componentWillReceiveProps(nextProps) {
     let {message, qiscus: {userData}} = nextProps;
-    if (message && this.state.comments) {
+    if (message && this.state.comments && this.state.comments.length > 0) {
       if (this.state.comments[0].comment_before_id !== message[0].comment_before_id) {
         if (message[0].user_id !== userData.id) {
           this._updateComments(nextProps.message);
@@ -78,7 +79,7 @@ export class ChatRenderer extends Component {
   _measureChatContainer(containerHeight, caller) {
     if (this.refs.chatContainer) {
       this.refs.chatContainer.measure((a, b, width, height, px, py) => {
-        this.setState({chatHeight: height});
+          this.setState({chatHeight: height});
           if (containerHeight > height) {
             this._scrollAction(containerHeight - height);
           }
@@ -101,12 +102,29 @@ export class ChatRenderer extends Component {
   }
   _sendMessage(message: string) {
     let {props: {room, qiscus}} = this;
+
+
+    this._measureChatContainer(this.state.containerHeight, 'send message');
+
     this.setState({
       newMessage: null,
     });
     if (message) {
-      qiscus.submitComment(room.id, message, null, null, null)
+      qiscus.sendComment(room.id, message, null, null, null)
       .then(this.setState({isSending: false}));
+    }
+  }
+
+  _loadMore() {
+    let {props: {qiscus}} = this;
+    if (qiscus.selected.comments.length >= 20){
+      this.setState({refreshing: true});
+      qiscus.loadMore(qiscus.selected.comments[0].id)
+      .then( res => {
+        this.setState({refreshing: false});
+      }, err => {
+        throw new Error(err);
+      });      
     }
   }
 
@@ -118,7 +136,7 @@ export class ChatRenderer extends Component {
         message, room, qiscus, attachIconStyle,
         chatListStyle, textInputStyle, sendIconStyle,
         messageItemRightStyle, messageItemLeftStyle,
-        senderTextStyle, messageTextStyle, loadingIndicatorColor,
+        senderTextStyle, messageTextStyle, timeTextStyle, loadingIndicatorColor,
       },
       state: {
         comments, newMessage, isSending,
@@ -141,15 +159,28 @@ export class ChatRenderer extends Component {
         <View style={[styles.commentList, {...chatListStyle}]} ref="chatContainer">
           <ScrollView
             ref={(scrollView) => { _scrollView = scrollView; }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._loadMore.bind(this)}
+              />
+            }
           >
+
             <ChatComponent
               qiscus={qiscus}
               isSending={isSending}
-              updateHeight={(height) => {this._measureChatContainer(height,'scrollView');this.setState({containerHeight: height});}}
+              updateHeight={(height) => {
+                if (this.state.comments.length <= 20){
+                  this._measureChatContainer(height,'scrollView');
+                }
+                this.setState({containerHeight: height});
+              }}
               messageItemRightStyle={messageItemRightStyle}
               messageItemLeftStyle={messageItemLeftStyle}
               senderTextStyle={senderTextStyle}
               messageTextStyle={messageTextStyle}
+              timeTextStyle={timeTextStyle}
               loadingIndicatorColor={loadingIndicatorColor}
             />
             <View style={[styles.breaker, {...chatListBackground}]} />
