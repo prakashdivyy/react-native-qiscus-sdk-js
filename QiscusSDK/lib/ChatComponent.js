@@ -94,7 +94,7 @@ export function ChatComponent(props: Object) {
         if (index % 6 === 0) {
           heighChat += 30;
         }
-        marginBottom = comments.length - 1 == index ? heighChat : 0;
+        marginBottom = comments.length - 1 == index ? 0 : 0;
         if (user.username === data.username_as) {
           if (data.username_real) {
             return (
