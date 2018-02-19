@@ -5,6 +5,15 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Lightbox from 'react-native-lightbox';
 import styles from "./styles";
 
+function renderButton(button) {
+  <TouchableOpacity onPress={() => {
+      Linking.openURL(`${button.payload.url}`);
+    }}
+  >
+    <Text style={styles.label}>{button.label}</Text>
+  </TouchableOpacity>
+}
+
 function renderMessage(isFile: boolean, message: string, time: string, messageTextStyle: {}, timeTextStyle: {}) {
   if (isFile) {
     let uri = message.split("[file] ")[1].split(" [/file]")[0];
@@ -123,9 +132,21 @@ export function ChatComponent(props: Object) {
                   {isSamePerson ? null : <View style={{paddingBottom: 5, borderBottomColor: '#b3bab5', borderBottomWidth: 1, marginBottom: 5}}>
                     <Text style={[{fontWeight: 'bold'}, {...senderTextStyle}]}>{data.username_as}</Text>
                   </View>}
-                  <View>
-                    {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
-                  </View>
+                  {
+                    (data.type == 'buttons') ? 
+                      <View>
+                        <Text>{data.payload.text || data.message}</Text>
+                        {
+                          data.payload.buttons
+                            .map(button => renderButton(button))
+                        }
+                      </View>
+                    : 
+                      <View>
+                        {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
+                      </View>
+                  }
+                  
                 </View>
                 {
                   isSamePerson ? null : <View style={[styles.arrowRight, {...backgroundRightTopColor}]} />
@@ -167,9 +188,20 @@ export function ChatComponent(props: Object) {
                   {isSamePerson ? null : <View style={{paddingBottom: 5, borderBottomColor: '#b3bab5', borderBottomWidth: 1, marginBottom: 5}}>
                     <Text style={{fontWeight: 'bold'}, {...senderTextStyle}}>{data.username_as}</Text>
                   </View>}
-                  <View>
-                    {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
-                  </View>
+                  {
+                    (data.type == 'buttons') ? 
+                      <View>
+                        <Text>{data.payload.text || data.message}</Text>
+                        {
+                          data.payload.buttons
+                            .map(button => renderButton(button))
+                        }
+                      </View>
+                    : 
+                      <View>
+                        {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
+                      </View>
+                  }
                 </View>
               </View>
             </View>
