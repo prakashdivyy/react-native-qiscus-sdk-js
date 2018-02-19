@@ -62,7 +62,7 @@ export class ChatRenderer extends Component {
   }
   componentWillReceiveProps(nextProps) {
     let {message, qiscus: {userData}} = nextProps;
-    if (message && this.state.comments) {
+    if (message && this.state.comments && this.state.comments.length > 0) {
       if (this.state.comments[0].comment_before_id !== message[0].comment_before_id) {
         if (message[0].user_id !== userData.id) {
           this._updateComments(nextProps.message);
@@ -79,7 +79,7 @@ export class ChatRenderer extends Component {
   _measureChatContainer(containerHeight, caller) {
     if (this.refs.chatContainer) {
       this.refs.chatContainer.measure((a, b, width, height, px, py) => {
-        this.setState({chatHeight: height});
+          this.setState({chatHeight: height});
           if (containerHeight > height) {
             this._scrollAction(containerHeight - height);
           }
@@ -122,7 +122,6 @@ export class ChatRenderer extends Component {
       qiscus.loadMore(qiscus.selected.comments[0].id)
       .then( res => {
         this.setState({refreshing: false});
-        console.log("LOADMORE", res)
       }, err => {
         throw new Error(err);
       });      
