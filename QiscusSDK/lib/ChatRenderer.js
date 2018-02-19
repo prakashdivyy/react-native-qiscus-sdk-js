@@ -116,13 +116,15 @@ export class ChatRenderer extends Component {
 
   _loadMore() {
     let {props: {qiscus}} = this;
-    qiscus.loadComments(qiscus.selected.id, qiscus.selected.comments[0].id, null, false)
-    .then( res => {
-    // this is not ideal, need to improve this part
-      this.setState({breakerHeight: this.state.breakerHeight + (5 * res.length)})
-    }, err => {
-      throw new Error(err);
-    });
+    if (qiscus.selected.comments.length > 0){
+      qiscus.loadMore(qiscus.selected.comments[0].id)
+      .then( res => {
+      // this is not ideal, need to improve this part
+        this.setState({breakerHeight: this.state.breakerHeight + (5 * res.length)})
+      }, err => {
+        throw new Error(err);
+      });      
+    }
   }
 
   render() {
