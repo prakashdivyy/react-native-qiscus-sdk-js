@@ -193,7 +193,14 @@ export class ChatRenderer extends Component {
             </View> :
             <TextInput style={[styles.textInput, {...textInputStyle}]} underlineColorAndroid='transparent'
               value={newMessage} placeholder="Say something" multiline={true}
-              onChangeText={(text) => this._setNewMessage(text)}
+              onChangeText={(text) => {
+                if (text.length > 0) {
+                  qiscus.publishTyping(1);
+                } else {
+                  qiscus.publishTyping(0);
+                }
+                this._setNewMessage(text);
+              }}
             />
           }
           <FilePicker attachIconStyle={attachIconStyle} sendMessage={this._sendMessage} setSending={(value) => this.setState({isSending: value})} />
