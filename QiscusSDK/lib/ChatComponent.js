@@ -6,7 +6,11 @@ import Lightbox from 'react-native-lightbox';
 import styles from "./styles";
 
 function renderButton(button) {
-  return <TouchableOpacity onPress={() => {
+  return <TouchableOpacity style={{
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+  }} onPress={() => {
       Linking.openURL(`${button.payload.url}`);
     }}
   >
