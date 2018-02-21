@@ -12,7 +12,7 @@ function renderButton(button) {
     padding: 10,
   }} onPress={() => {
       Linking.openURL(`${button.payload.url}`);
-    }}
+    }} key={button.label} 
   >
     <Text style={styles.label}>{button.label}</Text>
   </TouchableOpacity>
