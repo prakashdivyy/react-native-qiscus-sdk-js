@@ -6,16 +6,19 @@ import Lightbox from 'react-native-lightbox';
 import styles from "./styles";
 
 function renderButton(button) {
-  return <TouchableOpacity style={{
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-  }} onPress={() => {
-      Linking.openURL(`${button.payload.url}`);
-    }} key={button.label} 
-  >
-    <Text style={styles.label}>{button.label}</Text>
-  </TouchableOpacity>
+  return <View style={{flex: 1, justifyContent: 'center'}}>
+    <TouchableOpacity style={{
+      alignItems: 'center',
+      backgroundColor: '#DDDDDD',
+      padding: 10,
+      fontSize: 14,
+    }} onPress={() => {
+        Linking.openURL(`${button.payload.url}`);
+      }} key={button.label} 
+    >
+      <Text style={styles.label}>{button.label}</Text>
+    </TouchableOpacity>
+  </View>
 }
 
 function renderMessage(isFile: boolean, message: string, time: string, messageTextStyle: {}, timeTextStyle: {}) {
@@ -50,12 +53,12 @@ function renderMessage(isFile: boolean, message: string, time: string, messageTe
   } else {
     return (
       <View>
-      <Text style={{...messageTextStyle}}>
-        {message}
-      </Text>
-      <Text style={{...timeTextStyle}}>
-        {time}
-      </Text>
+        <Text style={{...messageTextStyle}}>
+          {message}
+        </Text>
+        <Text style={{...timeTextStyle, color: '#777'}}>
+          {time}
+        </Text>
       </View>
     );
   }
