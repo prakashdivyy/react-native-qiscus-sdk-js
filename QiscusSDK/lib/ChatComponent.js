@@ -9,13 +9,16 @@ function renderButton(button) {
   return <View style={{flex: 1, justifyContent: 'center'}} key={button.label}>
     <TouchableOpacity style={{
       alignItems: 'center',
-      backgroundColor: '#DDDDDD',
+      backgroundColor: '#133649',
       padding: 10,
     }} onPress={() => {
       Linking.openURL(`${button.payload.url}`);
     }} 
     >
-      <Text style={{...styles.label, fontSize:14, marginTop: 0}}>{button.label}</Text>
+      <Text style={{...styles.label, fontSize:14, marginTop: 0, color: '#FFF', 
+        paddingHorizontal: 15, textAlign: 'center'}}>
+        {button.label}
+      </Text>
     </TouchableOpacity>
   </View>
 }
@@ -141,7 +144,7 @@ export function ChatComponent(props: Object) {
                   {
                     (data.type == 'buttons') ? 
                       <View>
-                        <Text>{data.payload.text || data.message}</Text>
+                        <Text style={{...messageTextStyle}}>{data.payload.text || data.message}</Text>
                         {
                           data.payload.buttons
                             .map(button => renderButton(button))
