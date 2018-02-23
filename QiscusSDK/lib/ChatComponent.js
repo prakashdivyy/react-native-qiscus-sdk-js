@@ -15,7 +15,7 @@ function renderButton(button) {
         Linking.openURL(`${button.payload.url}`);
       }} key={button.label} 
     >
-      <Text style={{...styles.label, fontSize:14}}>{button.label}</Text>
+      <Text style={{...styles.label, fontSize:14, marginTop: 0}}>{button.label}</Text>
     </TouchableOpacity>
   </View>
 }
