@@ -11,12 +11,11 @@ function renderButton(button) {
       alignItems: 'center',
       backgroundColor: '#DDDDDD',
       padding: 10,
-      fontSize: 14,
     }} onPress={() => {
         Linking.openURL(`${button.payload.url}`);
       }} key={button.label} 
     >
-      <Text style={styles.label}>{button.label}</Text>
+      <Text style={{...styles.label, fontSize:14}}>{button.label}</Text>
     </TouchableOpacity>
   </View>
 }
@@ -56,7 +55,7 @@ function renderMessage(isFile: boolean, message: string, time: string, messageTe
         <Text style={{...messageTextStyle}}>
           {message}
         </Text>
-        <Text style={{...timeTextStyle, color: '#777'}}>
+        <Text style={{...timeTextStyle}}>
           {time}
         </Text>
       </View>
