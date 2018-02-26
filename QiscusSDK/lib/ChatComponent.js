@@ -9,14 +9,15 @@ function renderButton(button) {
   return <View style={{flex: 1, justifyContent: 'center'}} key={button.label}>
     <TouchableOpacity style={{
       alignItems: 'center',
-      backgroundColor: '#133649',
+      backgroundColor: '#dcdde1',
       padding: 10,
-    }} onPress={() => {
-      Linking.openURL(`${button.payload.url}`);
+      marginTop: 10,
+      marginBottom: -10,
+      marginHorizontal: -10,
     }} 
     >
-      <Text style={{...styles.label, fontSize:14, marginTop: 0, color: '#FFF', 
-        paddingHorizontal: 15, textAlign: 'center'}}>
+      <Text style={{...styles.label, fontSize:14, marginTop: 0, color: '#2f3640', 
+        textAlign: 'center', minWidth: 170}}>
         {button.label}
       </Text>
     </TouchableOpacity>
@@ -54,11 +55,11 @@ function renderMessage(isFile: boolean, message: string, time: string, messageTe
 
   } else {
     return (
-      <View>
+      <View style={{flex: 1, alignItems: 'flex-end', flexDirection: 'row'}}>
         <Text style={{...messageTextStyle}}>
           {message}
         </Text>
-        <Text style={{...timeTextStyle}}>
+        <Text style={{...timeTextStyle, marginLeft: 15}}>
           {time}
         </Text>
       </View>
@@ -207,7 +208,7 @@ export function ChatComponent(props: Object) {
                         }
                       </View>
                     : 
-                      <View>
+                      <View style={{flex:1}}>
                         {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
                       </View>
                   }
