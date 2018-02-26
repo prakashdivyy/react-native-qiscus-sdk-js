@@ -4,12 +4,16 @@ import autobind from 'class-autobind';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Lightbox from 'react-native-lightbox';
 import styles from "./styles";
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import isToday from 'date-fns/is_today';
+import isYesterday from 'date-fns/is_yesterday'
 
 let currentDate = null;
 
 function showDate(rawDate) {
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  return new Date(rawDate).toLocaleDateString('en-US', options);
+  if (isToday(rawDate)) return 'today';
+  if (isYesterday(rawDate)) return 'yesterday';
+  return distanceInWordsToNow(rawDate);
 }
 
 function renderButton(button) {
@@ -21,7 +25,7 @@ function renderButton(button) {
       marginTop: 10,
       marginBottom: -10,
       marginHorizontal: -10,
-    }}
+    }} onPress={() => Linking.openURL(`${button.payload.url}`)}
     >
       <Text style={{...styles.label, fontSize:14, marginTop: 0, color: '#2f3640', 
         textAlign: 'center', minWidth: 170}}>
@@ -31,10 +35,10 @@ function renderButton(button) {
   </View>
 }
 
-function renderDate(data, commentBefore) {
+function renderDate(data, commentBefore, dateTextStyle) {
   const shouldDisplayDate = (commentBefore == null || commentBefore.date !== data.date);
   if (shouldDisplayDate) {
-    return <View style={{padding:10, justifyContent: 'center', flex:1, alignItems: 'center'}}><Text>{showDate(data.date)}</Text></View>
+    return <View style={{padding:10, justifyContent: 'center', flex:1, alignItems: 'center', ...dateTextStyle}}><Text>{showDate(data.date)}</Text></View>
   }
   return <View></View>
 }
@@ -87,6 +91,7 @@ export function ChatComponent(props: Object) {
     qiscus, updateHeight, isSending,
     messageItemLeftStyle, messageItemRightStyle,
     senderTextStyle, messageTextStyle, timeTextStyle, loadingIndicatorColor,
+    dateTextStyle,
   } = props;
   let activityIndicatorColor = '#6fbf15';
   let backgroundRightTopColor = {};
@@ -133,7 +138,7 @@ export function ChatComponent(props: Object) {
           if (data.username_real) {
             return (
               <View key={data.id}>
-                {renderDate(data, ((index > 0) ? comments[index-1] : null))}
+                {renderDate(data, ((index > 0) ? comments[index-1] : null), dateTextStyle)}
                 <View
                   style={[
                     styles.messageContainerRight,
@@ -193,7 +198,7 @@ export function ChatComponent(props: Object) {
         } else {
           return (
             <View key={data.id}>
-              {renderDate(data, ((index > 0) ? comments[index-1] : null))}
+              {renderDate(data, ((index > 0) ? comments[index-1] : null), dateTextStyle)}
               <View
                 style={[
                   styles.messageContainerLeft,
