@@ -5,6 +5,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Lightbox from 'react-native-lightbox';
 import styles from "./styles";
 
+let currentDate = null;
+
+function showDate(rawDate) {
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(rawDate).toLocaleDateString('en-US', options);
+}
+
 function renderButton(button) {
   return <View style={{flex: 1, justifyContent: 'center'}} key={button.label}>
     <TouchableOpacity style={{
@@ -14,7 +21,7 @@ function renderButton(button) {
       marginTop: 10,
       marginBottom: -10,
       marginHorizontal: -10,
-    }} 
+    }}
     >
       <Text style={{...styles.label, fontSize:14, marginTop: 0, color: '#2f3640', 
         textAlign: 'center', minWidth: 170}}>
@@ -22,6 +29,14 @@ function renderButton(button) {
       </Text>
     </TouchableOpacity>
   </View>
+}
+
+function renderDate(data, commentBefore) {
+  const shouldDisplayDate = (commentBefore == null || commentBefore.date !== data.date);
+  if (shouldDisplayDate) {
+    return <View style={{padding:10, justifyContent: 'center', flex:1, alignItems: 'center'}}><Text>{showDate(data.date)}</Text></View>
+  }
+  return <View></View>
 }
 
 function renderMessage(isFile: boolean, message: string, time: string, messageTextStyle: {}, timeTextStyle: {}) {
@@ -117,57 +132,59 @@ export function ChatComponent(props: Object) {
         if (user.username === data.username_as) {
           if (data.username_real) {
             return (
-              <View
-                key={data.id}
-                style={[
-                  styles.messageContainerRight,
-                  {paddingTop: marginChat, marginBottom: marginBottom},
-                ]}>
-              <View style={styles.cardContainerRight}>
-                {data.isDelivered && !data.isRead ?
-                <View style={{height: 25, padding: 3, alignItems: 'center', justifyContent: 'center'}}>
-                  <Icon name="done" size={12} color="#4add17" style={{}}/>
-                </View> : null}
-                {
-                  data.isRead ?
-                  <View style={{height: 25, padding: 3, alignItems: 'center', justifyContent: 'center'}}>
-                    <Icon name="done-all" size={12} color="#4add17" style={{}}/>
-                  </View> : null
-                }
-                <View style={[
-                  styles.cardRightContent,
-                  {marginRight: marginMessage},
-                  {...messageItemRightStyle}
-                ]}>
-                  {isSamePerson ? null : <View style={{paddingBottom: 5, borderBottomColor: '#b3bab5', borderBottomWidth: 1, marginBottom: 5}}>
-                    <Text style={[{fontWeight: 'bold'}, {...senderTextStyle}]}>{data.username_as}</Text>
-                  </View>}
-                  {
-                    (data.type == 'buttons') ? 
-                      <View>
-                        <Text style={{...messageTextStyle}}>{data.payload.text || data.message}</Text>
-                        {
-                          data.payload.buttons
-                            .map(button => renderButton(button))
-                        }
-                      </View>
-                    : 
-                      <View>
-                        {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
-                      </View>
+              <View key={data.id}>
+                {renderDate(data, ((index > 0) ? comments[index-1] : null))}
+                <View
+                  style={[
+                    styles.messageContainerRight,
+                    {paddingTop: marginChat, marginBottom: marginBottom},
+                  ]}>
+                  <View style={styles.cardContainerRight}>
+                    {data.isDelivered && !data.isRead ?
+                    <View style={{height: 25, padding: 3, alignItems: 'center', justifyContent: 'center'}}>
+                      <Icon name="done" size={12} color="#4add17" style={{}}/>
+                    </View> : null}
+                    {
+                      data.isRead ?
+                      <View style={{height: 25, padding: 3, alignItems: 'center', justifyContent: 'center'}}>
+                        <Icon name="done-all" size={12} color="#4add17" style={{}}/>
+                      </View> : null
+                    }
+                    <View style={[
+                      styles.cardRightContent,
+                      {marginRight: marginMessage},
+                      {...messageItemRightStyle}
+                    ]}>
+                      {isSamePerson ? null : <View style={{paddingBottom: 5, borderBottomColor: '#b3bab5', borderBottomWidth: 1, marginBottom: 5}}>
+                        <Text style={[{fontWeight: 'bold'}, {...senderTextStyle}]}>{data.username_as}</Text>
+                      </View>}
+                      {
+                        (data.type == 'buttons') ? 
+                          <View>
+                            <Text style={{...messageTextStyle}}>{data.payload.text || data.message}</Text>
+                            {
+                              data.payload.buttons
+                                .map(button => renderButton(button))
+                            }
+                          </View>
+                        : 
+                          <View>
+                            {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
+                          </View>
+                      }
+                      
+                    </View>
+                    {
+                      isSamePerson ? null : <View style={[styles.arrowRight, {...backgroundRightTopColor}]} />
+                    }
+                  </View>
+                  {!isSamePerson ?
+                    <Image
+                      style={{height: 40, width: 40, borderRadius: 20, marginRight: 5}}
+                      source={{uri: data.avatar}}
+                    /> : <View style={{height: 40, width: 40, borderRadius: 20, marginRight: 5}} />
                   }
-                  
                 </View>
-                {
-                  isSamePerson ? null : <View style={[styles.arrowRight, {...backgroundRightTopColor}]} />
-                }
-              </View>
-              {!isSamePerson ?
-                <Image
-                  style={{height: 40, width: 40, borderRadius: 20, marginRight: 5}}
-                  source={{uri: data.avatar}}
-                /> : <View style={{height: 40, width: 40, borderRadius: 20, marginRight: 5}} />
-              }
               </View>
             );
           } else {
@@ -175,43 +192,46 @@ export function ChatComponent(props: Object) {
           }
         } else {
           return (
-            <View
-              style={[
-                styles.messageContainerLeft,
-                {paddingTop: marginChat, marginBottom: marginBottom},
-              ]} key={data.id}>
-              {!isSamePerson ?
-                <Image
-                  style={{height: 40, width: 40, borderRadius: 20, marginLeft: 5}}
-                  source={{uri: data.avatar}}
-                /> : <View style={{height: 40, width: 40, borderRadius: 20, marginLeft: 5}} />
-              }
-              <View style={styles.cardContainerLeft}>
-                {
-                  isSamePerson ? null : <View style={[styles.arrowLeftTop, {...backgroundLeftTopColor}]} />
-                }
-                <View style={[
-                  styles.cardLeftContent,
-                  {marginLeft: marginMessage},
-                  {...messageItemLeftStyle},
+            <View key={data.id}>
+              {renderDate(data, ((index > 0) ? comments[index-1] : null))}
+              <View
+                style={[
+                  styles.messageContainerLeft,
+                  {paddingTop: marginChat, marginBottom: marginBottom},
                 ]}>
-                  {isSamePerson ? null : <View style={{paddingBottom: 5, borderBottomColor: '#b3bab5', borderBottomWidth: 1, marginBottom: 5}}>
-                    <Text style={{fontWeight: 'bold'}, {...senderTextStyle}}>{data.username_as}</Text>
-                  </View>}
+                {!isSamePerson ?
+                  <Image
+                    style={{height: 40, width: 40, borderRadius: 20, marginLeft: 5}}
+                    source={{uri: data.avatar}}
+                  /> : <View style={{height: 40, width: 40, borderRadius: 20, marginLeft: 5}} />
+                }
+                <View style={styles.cardContainerLeft}>
                   {
-                    (data.type == 'buttons') ? 
-                      <View>
-                        <Text>{data.payload.text || data.message}</Text>
-                        {
-                          data.payload.buttons
-                            .map(button => renderButton(button))
-                        }
-                      </View>
-                    : 
-                      <View style={{flex:1}}>
-                        {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
-                      </View>
+                    isSamePerson ? null : <View style={[styles.arrowLeftTop, {...backgroundLeftTopColor}]} />
                   }
+                  <View style={[
+                    styles.cardLeftContent,
+                    {marginLeft: marginMessage},
+                    {...messageItemLeftStyle},
+                  ]}>
+                    {isSamePerson ? null : <View style={{paddingBottom: 5, borderBottomColor: '#b3bab5', borderBottomWidth: 1, marginBottom: 5}}>
+                      <Text style={{fontWeight: 'bold'}, {...senderTextStyle}}>{data.username_as}</Text>
+                    </View>}
+                    {
+                      (data.type == 'buttons') ? 
+                        <View>
+                          <Text>{data.payload.text || data.message}</Text>
+                          {
+                            data.payload.buttons
+                              .map(button => renderButton(button))
+                          }
+                        </View>
+                      : 
+                        <View style={{flex:1}}>
+                          {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
+                        </View>
+                    }
+                  </View>
                 </View>
               </View>
             </View>
