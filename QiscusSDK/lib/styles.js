@@ -33,7 +33,7 @@ export default{
     fontSize: 9,
   },
   breaker: {
-    height: 45,
+    height: 95,
     backgroundColor: '#e0f2f1',
   },
   commentList: {
