@@ -173,7 +173,7 @@ export function ChatComponent(props: Object) {
                             }
                           </View>
                         : 
-                          <View>
+                          <View style={{flex:1,flexWrap:'wrap'}}>
                             {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
                           </View>
                       }
@@ -232,7 +232,7 @@ export function ChatComponent(props: Object) {
                           }
                         </View>
                       : 
-                        <View style={{flex:1}}>
+                        <View style={{flex:1,flexWrap:'wrap'}}>
                           {renderMessage(isFile, data.message, data.time, messageTextStyle, timeTextStyle)}
                         </View>
                     }
