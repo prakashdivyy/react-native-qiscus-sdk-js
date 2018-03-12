@@ -137,6 +137,7 @@ export class ChatRenderer extends Component {
         chatListStyle, textInputStyle, sendIconStyle,
         messageItemRightStyle, messageItemLeftStyle,
         senderTextStyle, messageTextStyle, timeTextStyle, loadingIndicatorColor,
+        dateTextStyle, dateTextWrapperStyle,
       },
       state: {
         comments, newMessage, isSending,
@@ -182,6 +183,8 @@ export class ChatRenderer extends Component {
               messageTextStyle={messageTextStyle}
               timeTextStyle={timeTextStyle}
               loadingIndicatorColor={loadingIndicatorColor}
+              dateTextStyle={dateTextStyle}
+              dateTextWrapperStyle={dateTextWrapperStyle}
             />
             <View style={[styles.breaker, {...chatListBackground}]} />
           </ScrollView>
