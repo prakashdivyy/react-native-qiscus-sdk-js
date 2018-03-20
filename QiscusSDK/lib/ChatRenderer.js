@@ -186,7 +186,7 @@ export class ChatRenderer extends Component {
               dateTextStyle={dateTextStyle}
               dateTextWrapperStyle={dateTextWrapperStyle}
             />
-            <View style={[styles.breaker, {...chatListBackground}]} />
+            <View style={{height: this.state.comments.length * 4}} />
           </ScrollView>
         </View>
         <View style={[styles.formStyle, this.state.formStyle]}>
@@ -195,7 +195,7 @@ export class ChatRenderer extends Component {
               <ActivityIndicator style={[{alignItems: 'center', justifyContent: 'center'}]} size="large" color={activityIndicatorColor} />
             </View> :
             <TextInput style={[styles.textInput, {...textInputStyle}]} underlineColorAndroid='transparent'
-              value={newMessage} placeholder="Say something" multiline={true}
+              value={newMessage} placeholder="Send Message" multiline={true}
               onChangeText={(text) => {
                 if (text.length > 0) {
                   qiscus.publishTyping(1);
