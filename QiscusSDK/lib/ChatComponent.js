@@ -121,6 +121,16 @@ export function ChatComponent(props: Object) {
     >
       {comments.map((data, index) => {
         let isFile = data.message.substring(0, 6) === '[file]' ? true : false;
+        if (data.isRead) {
+          for (i = 0; i < index; i++) { 
+              comments[i].isRead = true;
+          }
+        }
+        if (data.isDelivered) {
+          for (i = 0; i < index; i++) { 
+              comments[i].isDelivered = true;
+          }
+        }
         if (currentUserName !== data.username_as) {
           currentUserName = data.username_as;
           isSamePerson = false;
