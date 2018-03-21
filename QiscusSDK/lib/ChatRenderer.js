@@ -21,6 +21,7 @@ export class ChatRenderer extends Component {
       chatHeight: 0,
       isSending: false,
       refreshing: false,
+      heightBreaker: 95
     };
   }
   componentWillMount() {
@@ -61,10 +62,15 @@ export class ChatRenderer extends Component {
     this._sendMessage(this.state.newMessage);
   }
   componentWillReceiveProps(nextProps) {
+    let {props: {qiscus}} = this;
     let {message, qiscus: {userData}} = nextProps;
     if (message && this.state.comments && this.state.comments.length > 0) {
       if (this.state.comments[0].comment_before_id !== message[0].comment_before_id) {
         if (message[0].user_id !== userData.id) {
+          this.setState({
+            heightBreaker: qiscus.selected.comments.length * 5
+          })
+          qiscus.readComment(qiscus.selected.id, message[0].id);
           this._updateComments(nextProps.message);
           this._measureChatContainer(this.state.containerHeight, 'new props');
         }
@@ -122,6 +128,9 @@ export class ChatRenderer extends Component {
       qiscus.loadMore(qiscus.selected.comments[0].id)
       .then( res => {
         this.setState({refreshing: false});
+        this.setState({
+          heightBreaker: qiscus.selected.comments.length * 4
+        })
       }, err => {
         throw new Error(err);
       });      
@@ -186,7 +195,7 @@ export class ChatRenderer extends Component {
               dateTextStyle={dateTextStyle}
               dateTextWrapperStyle={dateTextWrapperStyle}
             />
-            <View style={{height: this.state.comments.length * 4}} />
+            <View style={{height: this.state.heightBreaker}} />
           </ScrollView>
         </View>
         <View style={[styles.formStyle, this.state.formStyle]}>
